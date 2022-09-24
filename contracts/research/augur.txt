@@ -1,0 +1,26 @@
+The outcomes of Augur’s prediction markets are chosen by users that hold Augur’s native 
+Reputation token, who stake their tokens on the actual observed outcome and, in return, 
+receive settlement fees from the markets
+
+- honest accurate reporting should always be the most profitable for REP holders
+
+- can post progressively larger bonds to dispute proposed market outcomes
+  - at a certain treshold, REP splits into multiple versions. Holder then choose which version they
+    want.
+  - 
+
+Augur markets follow a four-stage progression: creation, trading, reporting, and settlement.
+
+- users report by staking their REP on an outcome.
+
+Each staked REP token entitles its holder to an equal portion of Augur’s market fees.
+
+market creator 
+  - chooses a designated reporter, so not anyone can propose. But anyone can dispute.
+  - resolution source can be common knowledge, or something more specific like a website.
+  - posts two bonds: validity bond and creation bond
+    - validity bond is in DAI and is returned if the market resolves
+    - creation bond is in REP and is return iff the designated reporter reports in 24h and iff correct
+
+7 day dispute windows
+
