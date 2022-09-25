@@ -1,0 +1,180 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "questionString",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "expiry",
+          "type": "uint256"
+        }
+      ],
+      "name": "askQuestion",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/Users/alexander/dev/opti/contracts/src/interfaces/OOInterface.sol",
+    "exportedSymbols": {
+      "DVMInterface": [
+        24342
+      ],
+      "OOInterface": [
+        24341
+      ]
+    },
+    "id": 24343,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 24333,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".13"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:17"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "OOInterface",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 24341,
+        "linearizedBaseContracts": [
+          24341
+        ],
+        "name": "OOInterface",
+        "nameLocation": "74:11:17",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "e3f541ee",
+            "id": 24340,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "askQuestion",
+            "nameLocation": "121:11:17",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24338,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 24335,
+                  "mutability": "mutable",
+                  "name": "questionString",
+                  "nameLocation": "147:14:17",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24340,
+                  "src": "133:28:17",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 24334,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "133:6:17",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 24337,
+                  "mutability": "mutable",
+                  "name": "expiry",
+                  "nameLocation": "171:6:17",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24340,
+                  "src": "163:14:17",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 24336,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "163:7:17",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "132:46:17"
+            },
+            "returnParameters": {
+              "id": 24339,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "187:0:17"
+            },
+            "scope": 24341,
+            "src": "112:76:17",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 24343,
+        "src": "64:170:17",
+        "usedErrors": []
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "DVMInterface",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "id": 24342,
+        "linearizedBaseContracts": [
+          24342
+        ],
+        "name": "DVMInterface",
+        "nameLocation": "246:12:17",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 24343,
+        "src": "236:110:17",
+        "usedErrors": []
+      }
+    ],
+    "src": "39:308:17"
+  }
+}
