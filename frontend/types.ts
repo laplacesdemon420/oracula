@@ -20,3 +20,9 @@ export type Theme = {
   typeScale: object;
   font: object;
 };
+
+export type Question = {
+  questionString: string;
+  resolutionSource: string;
+  resolutionDate: string;
+};

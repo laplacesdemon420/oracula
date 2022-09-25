@@ -2,19 +2,8 @@ import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-
-type Inputs = {
-  question: string;
-  resolutionSource: string;
-  resolutionDate: string;
-};
-/*
-CREATE A REACT HOOK FORM with:
-- question
-- resolution source
-- resolution date
-- bond size
-*/
+import Table from '../components/Table';
+import { Question } from '../types';
 
 const Questions: NextPage = () => {
   const {
@@ -22,10 +11,8 @@ const Questions: NextPage = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-  // console.log('example', watch('example')); // watch input value by passing the name of it
-  // console.log('exampleRequired', watch('exampleRequired')); // watch input value by passing the name of it
+  } = useForm<Question>();
+  const onSubmit: SubmitHandler<Question> = (data) => console.log(data);
 
   return (
     <Container>
@@ -36,7 +23,7 @@ const Questions: NextPage = () => {
           <input
             className="question"
             placeholder="what question do you wanna ask?"
-            {...(register('question'), { required: true })}
+            {...(register('questionString'), { required: true })}
           />
           <p className="outcomes">Possible outcomes:</p>
           <OutcomeDiv>
@@ -62,19 +49,27 @@ const Questions: NextPage = () => {
               <label>Resolution date:</label>
               <input
                 className="resolution-date"
+                type="date"
                 {...register('resolutionDate', { required: true })}
               />
             </Question>
           </Resolution>
-          {/* errors will return when field validation fails  */}
           {errors.resolutionSource && <span>This field is required</span>}
-          {/* <input type="submit" /> */}
           <Button type="submit">submit question</Button>
         </StyledForm>
       </Ask>
+      <TableContainer>
+        <h2>Questions</h2>
+        <Table />
+      </TableContainer>
     </Container>
   );
 };
+
+const TableContainer = styled.div`
+  width: 90%;
+  margin-top: 2rem;
+`;
 
 const OutcomeDiv = styled.div`
   display: flex;
@@ -158,7 +153,9 @@ const Resolution = styled.div`
 const Container = styled.div`
   min-height: calc(100vh - 62px);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 `;
 
 const Ask = styled.div`
