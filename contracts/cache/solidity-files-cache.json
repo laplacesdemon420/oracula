@@ -644,8 +644,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/OptimisticOracle.sol": {
-      "lastModificationDate": 1664111284500,
-      "contentHash": "ccfcfc518a5c4d56d27a218255e61e3d",
+      "lastModificationDate": 1664175977507,
+      "contentHash": "15d883772e3405fda3fe0ce4c6206a0a",
       "sourceName": "src/OptimisticOracle.sol",
       "solcConfig": {
         "settings": {
@@ -718,8 +718,8 @@
       "artifacts": {}
     },
     "/Users/alexander/dev/opti/contracts/src/interfaces/OOInterface.sol": {
-      "lastModificationDate": 1664110586505,
-      "contentHash": "cda86b9540761d4379e4f7467a4cb75d",
+      "lastModificationDate": 1664176069205,
+      "contentHash": "e2bd074fd3942f0834cfa2c5ce570a45",
       "sourceName": "src/interfaces/OOInterface.sol",
       "solcConfig": {
         "settings": {
@@ -746,7 +746,9 @@
           "evmVersion": "london"
         }
       },
-      "imports": [],
+      "imports": [
+        "src/datastructures/structures.sol"
+      ],
       "versionRequirement": "=0.8.13",
       "artifacts": {
         "DVMInterface": {
@@ -758,8 +760,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/test/OptimisticOracleTest.sol": {
-      "lastModificationDate": 1664111354453,
-      "contentHash": "3f97578bc6ae49bcaf97739dd55f6fad",
+      "lastModificationDate": 1664176240080,
+      "contentHash": "102d77fea89ac86c8f081feac83494f0",
       "sourceName": "src/test/OptimisticOracleTest.sol",
       "solcConfig": {
         "settings": {

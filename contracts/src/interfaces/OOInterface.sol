@@ -1,11 +1,20 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.13;
 
+import {Result} from "../datastructures/structures.sol";
+
 interface OOInterface {
-    // ask question
     function askQuestion(string memory questionString, uint256 expiry) external;
-    // propose answer
-    // dispute answer
+
+    function proposeAnswer(bytes32 questionId, Result answer) external;
+
+    function finalizeProposal(bytes32 questionId) external;
+
+    function disputeProposal(bytes32 questionId) external;
+
+    function makeVote(bytes32 questionId, Result answer) external;
+
+    function finalizeVote(bytes32 questionId) external;
 }
 
 interface DVMInterface {

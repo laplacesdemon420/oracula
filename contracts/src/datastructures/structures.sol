@@ -2,7 +2,7 @@
 pragma solidity 0.8.13;
 
 enum Result {
-    PENDING,
+    INVALID,
     YES,
     NO
 }
@@ -10,13 +10,21 @@ enum Result {
 enum Stage {
     PENDING,
     PROPOSED,
-    DISPUTED
+    DISPUTED,
+    FINALIZED
 }
 
 struct Proposal {
     address proposer;
-    uint256 answer; // 0 is no, 1 is yes
+    Result answer; // 0 is invalid, 1 is yes, 2 is no
     uint256 timestamp;
+}
+
+struct Vote {
+    uint256 invalidCount;
+    uint256 yesCount;
+    uint256 noCount;
+    uint256 endTimestamp;
 }
 
 struct Question {
