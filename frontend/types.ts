@@ -23,6 +23,7 @@ export type Theme = {
 
 export type Question = {
   questionString: string;
+  stage: string;
   resolutionSource: string;
   resolutionDate: string;
 };

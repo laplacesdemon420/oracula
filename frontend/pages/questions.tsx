@@ -68,7 +68,13 @@ const Questions: NextPage = () => {
 
 const TableContainer = styled.div`
   width: 90%;
+  /* border: 1px solid ${({ theme }) => theme.background.tertiary}; */
+  border-radius: 10px 10px 0 0;
   margin-top: 2rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const OutcomeDiv = styled.div`
