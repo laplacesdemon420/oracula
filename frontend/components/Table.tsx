@@ -5,8 +5,15 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable,
+  FilterFn,
 } from '@tanstack/react-table';
+import {
+  RankingInfo,
+  rankItem,
+  compareItems,
+} from '@tanstack/match-sorter-utils';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { Question } from '../types';
 import { mockQuestions } from '../data/questions';
@@ -33,17 +40,35 @@ const columns = [
   }),
 ];
 
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
+
 export default function Table() {
   const [data, setData] = useState(() => [...mockQuestions]);
   const [columnVisibility, setColumnVisibility] = useState({});
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable({
     data,
     columns,
     state: {
       columnVisibility,
+      globalFilter,
     },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   const handleResize = () => {
@@ -81,6 +106,13 @@ export default function Table() {
 
   return (
     <Container>
+      <Search>
+        <DebouncedInput
+          value={globalFilter ?? ''}
+          onChange={(value) => setGlobalFilter(String(value))}
+          placeholder="Search..."
+        />
+      </Search>
       <StyledTable>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -118,6 +150,15 @@ export default function Table() {
     </Container>
   );
 }
+
+const Search = styled.div`
+  input {
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid ${({ theme }) => theme.background.tertiary};
+    width: 20rem;
+  }
+`;
 
 const StyledTable = styled.table`
   width: 100%;
@@ -163,9 +204,44 @@ const StyledTable = styled.table`
 `;
 
 const Container = styled.div`
-  min-height: calc(100vh - 62px);
+  /* min-height: calc(100vh - 62px); */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  /* align-items: center; */
   /* border: 1px solid ${({ theme }) => theme.text.primary}; */
   margin-bottom: 2rem;
 `;
+
+function DebouncedInput({
+  value: initialValue,
+  onChange,
+  debounce = 500,
+  ...props
+}: {
+  value: string | number;
+  onChange: (value: string | number) => void;
+  debounce?: number;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, debounce);
+
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  return (
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}
