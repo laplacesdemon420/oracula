@@ -19,10 +19,14 @@ export default function Header() {
 }
 
 const Container = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 0.75rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: ${({ theme }) => theme.background.primary};
   border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 `;
 

@@ -109,25 +109,6 @@ const OutcomeDiv = styled.div`
   }
 `;
 
-const StyledForm = styled.form`
-  width: 100%;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .question {
-    padding: 0.75rem;
-    border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
-    font-size: ${({ theme }) => theme.typeScale.paragraph};
-  }
-
-  .outcomes {
-    font-size: ${({ theme }) => theme.typeScale.paragraph};
-  }
-`;
-
 const Question = styled.div`
   display: flex;
   flex-direction: column;
@@ -138,13 +119,13 @@ const Question = styled.div`
   }
 
   .resolution-source {
-    padding: 0.5rem;
+    padding: 9px;
     border-radius: 10px;
     border: 2px solid ${({ theme }) => theme.text.primary};
   }
 
   .resolution-date {
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 10px;
     border: 2px solid ${({ theme }) => theme.text.primary};
   }
@@ -165,7 +146,7 @@ const Container = styled.div`
 `;
 
 const Ask = styled.div`
-  width: 50%;
+  width: 600px;
   margin-top: 3rem;
   display: flex;
   flex-direction: column;
@@ -179,9 +160,33 @@ const Ask = styled.div`
     font-weight: 800;
     font-size: 1.5rem;
   }
+
+  @media screen and (max-width: 700px) {
+    width: 80%;
+  }
 `;
 
-export default Questions;
+const StyledForm = styled.form`
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .question {
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 2px solid ${({ theme }) => theme.text.primary};
+    font-size: ${({ theme }) => theme.typeScale.paragraph};
+  }
+
+  .outcomes {
+    font-size: ${({ theme }) => theme.typeScale.smallParagraph};
+  }
+  @media screen and (max-width: 700px) {
+    /* width: 80%; */
+  }
+`;
 
 const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -196,3 +201,5 @@ const Button = styled.button`
     background-color: ${({ theme }) => theme.colors.secondary};
   }
 `;
+
+export default Questions;
