@@ -103,10 +103,12 @@ export default function Table() {
             <tr className={row.id} key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td className={cell.column.id} key={cell.id}>
-                  {cell.column.id === 'stage' ? (
-                    <RiCheckboxBlankCircleFill />
-                  ) : null}
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <div className={cell.column.id === 'stage' ? 'stage' : ''}>
+                    {cell.column.id === 'stage' ? (
+                      <RiCheckboxBlankCircleFill />
+                    ) : null}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </div>
                 </td>
               ))}
             </tr>
@@ -148,7 +150,7 @@ const StyledTable = styled.table`
       padding-left: 1rem;
       padding-top: 1rem;
       padding-bottom: 1rem;
-      &.stage {
+      .stage {
         display: flex;
         align-items: center;
         gap: 0.25rem;
