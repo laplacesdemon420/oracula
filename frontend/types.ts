@@ -16,12 +16,13 @@ export type Theme = {
     secondary: string;
     tertiary: string;
     quaternary: string;
+    senary: string;
   };
   typeScale: object;
   font: object;
 };
 
-export type Question = {
+export type QuestionType = {
   questionString: string;
   stage?: string;
   resolutionSource: string;

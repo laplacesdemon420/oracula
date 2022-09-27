@@ -57,6 +57,7 @@ export const lightTheme: Theme = {
     secondary: grey[200],
     tertiary: grey[300],
     quaternary: grey[400],
+    senary: grey[500],
   },
   font: {
     primary: primaryFont,

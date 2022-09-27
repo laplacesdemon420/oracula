@@ -1,9 +1,36 @@
-import type { NextPage } from 'next';
+import type { NextPage, InferGetStaticPropsType, GetStaticProps } from 'next';
 import styled from 'styled-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ethers } from 'ethers';
+import { addresses } from '../../contracts/addresses';
+import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Table from '../components/Table';
 
-const Dashboard: NextPage = () => {
+export async function getStaticProps() {
+  // how to get questions? ask the subgraph
+  // TODO: learn about the graph and write a subgraph
+
+  const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
+  const oo = new ethers.Contract(
+    addresses.goerli.oo,
+    OptimisticOracle.abi,
+    provider
+  );
+  let response = await oo.BOND_AMOUNT();
+  console.log(response);
+
+  return {
+    props: {
+      response: ethers.utils.formatEther(response),
+    },
+  };
+}
+
+export default function Dashboard({
+  response,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log(response);
+
   return (
     <Container>
       <Inner>
@@ -44,7 +71,7 @@ const Dashboard: NextPage = () => {
       </Inner>
     </Container>
   );
-};
+}
 
 const TableContainer = styled.div`
   width: 100%;
@@ -59,7 +86,7 @@ const TableContainer = styled.div`
 
 const AccountInfo = styled.div`
   display: grid;
-  grid-template-columns: minmax(258px, 1fr) 3fr;
+  grid-template-columns: 258px 1fr;
   gap: 1rem;
   div {
     padding: 1rem;
@@ -113,5 +140,3 @@ const Container = styled.div`
   align-items: center;
   margin-top: 3rem;
 `;
-
-export default Dashboard;

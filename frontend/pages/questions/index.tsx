@@ -1,18 +1,13 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useContract,
-  useSigner,
-} from 'wagmi';
+import { useContract, useSigner } from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import { addresses } from '../../contracts/addresses';
-import Table from '../components/Table';
-import { Question } from '../types';
+import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
+import { addresses } from '../../../contracts/addresses';
+import Table from '../../components/Table';
+import { QuestionType } from '../../types';
 import { useState } from 'react';
 
 const Questions: NextPage = () => {
@@ -24,8 +19,8 @@ const Questions: NextPage = () => {
     signerOrProvider: signer,
   });
 
-  const { register, handleSubmit, watch, formState } = useForm<Question>();
-  const onSubmit: SubmitHandler<Question> = async (data) => {
+  const { register, handleSubmit, watch, formState } = useForm<QuestionType>();
+  const onSubmit: SubmitHandler<QuestionType> = async (data) => {
     console.log(data);
     const question = [
       data.questionString,
