@@ -42,9 +42,14 @@ contract OptimisticOracleTest is Test {
 
     function testQuestionHappyPath() public {
         // ASK QUESTION
-        oo.askQuestion("will ETH be over 1k tomorrow?", 1000);
+        oo.askQuestion(
+            "will ETH be over 1k tomorrow?",
+            "https://coingecko.com",
+            1000
+        );
         bytes32 questionId = oo.getQuestionId(
             "will ETH be over 1k tomorrow?",
+            "https://coingecko.com",
             1000
         );
         Question memory question = oo.getQuestionById(questionId);
@@ -69,9 +74,14 @@ contract OptimisticOracleTest is Test {
 
     function testQuestionSadPath() public {
         // ASK QUESTION
-        oo.askQuestion("will ETH be over 1k tomorrow?", 1000);
+        oo.askQuestion(
+            "will ETH be over 1k tomorrow?",
+            "https://coingecko.com",
+            1000
+        );
         bytes32 questionId = oo.getQuestionId(
             "will ETH be over 1k tomorrow?",
+            "https://coingecko.com",
             1000
         );
         Question memory question = oo.getQuestionById(questionId);

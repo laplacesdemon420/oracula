@@ -4,7 +4,11 @@ pragma solidity 0.8.13;
 import {Result} from "../datastructures/structures.sol";
 
 interface OOInterface {
-    function askQuestion(string memory questionString, uint256 expiry) external;
+    function askQuestion(
+        string memory questionString,
+        string memory resolutionSource,
+        uint256 expiry
+    ) external;
 
     function proposeAnswer(bytes32 questionId, Result answer) external;
 

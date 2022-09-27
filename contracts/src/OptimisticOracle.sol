@@ -23,12 +23,19 @@ contract OptimisticOracle is OOInterface {
         VOTING_PERIOD = 172800; // 48H
     }
 
-    function askQuestion(string memory questionString, uint256 expiry)
-        external
-    {
-        bytes32 questionId = getQuestionId(questionString, expiry);
+    function askQuestion(
+        string memory questionString,
+        string memory resolutionSource,
+        uint256 expiry
+    ) external {
+        bytes32 questionId = getQuestionId(
+            questionString,
+            resolutionSource,
+            expiry
+        );
         Question memory question = Question(
             questionString,
+            resolutionSource,
             expiry,
             Stage.PENDING,
             Result.INVALID
@@ -163,11 +170,11 @@ contract OptimisticOracle is OOInterface {
         return proposalByQuestionId[questionId];
     }
 
-    function getQuestionId(string memory questionString, uint256 expiry)
-        public
-        pure
-        returns (bytes32)
-    {
-        return keccak256(abi.encode(questionString, expiry));
+    function getQuestionId(
+        string memory questionString,
+        string memory resolutionSource,
+        uint256 expiry
+    ) public pure returns (bytes32) {
+        return keccak256(abi.encode(questionString, resolutionSource, expiry));
     }
 }

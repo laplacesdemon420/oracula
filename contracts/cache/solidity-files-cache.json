@@ -644,8 +644,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/OptimisticOracle.sol": {
-      "lastModificationDate": 1664175977507,
-      "contentHash": "15d883772e3405fda3fe0ce4c6206a0a",
+      "lastModificationDate": 1664261660935,
+      "contentHash": "a93976c5c6bddcfe9ff029105a8a451b",
       "sourceName": "src/OptimisticOracle.sol",
       "solcConfig": {
         "settings": {
@@ -684,6 +684,48 @@
         }
       }
     },
+    "/Users/alexander/dev/opti/contracts/src/Token.sol": {
+      "lastModificationDate": 1664263271990,
+      "contentHash": "9f2dc995bd0dd11a6aa91d2870c0e77c",
+      "sourceName": "src/Token.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "=0.8.13",
+      "artifacts": {
+        "OPTI": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Token.sol/OPTI.json"
+        }
+      }
+    },
     "/Users/alexander/dev/opti/contracts/src/datastructures/structures.sol": {
       "lastModificationDate": 1664111163229,
       "contentHash": "2db5a6d3f93b1b0847cb068efe6f0fa9",
@@ -718,8 +760,8 @@
       "artifacts": {}
     },
     "/Users/alexander/dev/opti/contracts/src/interfaces/OOInterface.sol": {
-      "lastModificationDate": 1664176069205,
-      "contentHash": "e2bd074fd3942f0834cfa2c5ce570a45",
+      "lastModificationDate": 1664261675363,
+      "contentHash": "db3498c27c806a4fcf2ff6b216d45705",
       "sourceName": "src/interfaces/OOInterface.sol",
       "solcConfig": {
         "settings": {
@@ -760,8 +802,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/test/OptimisticOracleTest.sol": {
-      "lastModificationDate": 1664176240080,
-      "contentHash": "102d77fea89ac86c8f081feac83494f0",
+      "lastModificationDate": 1664261725988,
+      "contentHash": "f954292779ee0914333ab68b57eb94d9",
       "sourceName": "src/test/OptimisticOracleTest.sol",
       "solcConfig": {
         "settings": {
@@ -818,6 +860,65 @@
         },
         "TokenReceiver": {
           "0.8.13+commit.abaa5c0e.Darwin.appleclang": "OptimisticOracleTest.sol/TokenReceiver.json"
+        }
+      }
+    },
+    "/Users/alexander/dev/opti/contracts/src/test/TokenTest.t.sol": {
+      "lastModificationDate": 1664263514545,
+      "contentHash": "ca7cc475a68ea6540e62673e15186ff5",
+      "sourceName": "src/test/TokenTest.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london"
+        }
+      },
+      "imports": [
+        "lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC1155/utils/ERC1155Holder.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC1155/utils/ERC1155Receiver.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+        "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Context.sol",
+        "lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
+        "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol",
+        "src/Token.sol",
+        "src/test/helpers/CheatCodes.sol"
+      ],
+      "versionRequirement": "=0.8.13",
+      "artifacts": {
+        "OptimisticOracleTest": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "TokenTest.t.sol/OptimisticOracleTest.json"
+        },
+        "TokenReceiver": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "TokenTest.t.sol/TokenReceiver.json"
         }
       }
     },

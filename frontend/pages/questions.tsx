@@ -38,6 +38,9 @@ const Questions: NextPage = () => {
     await tx.wait();
     console.log(tx.hash);
     setAskQuestionLoading(false);
+
+    // now the created question should be added to the top of the table
+    // maybe, just trigger a rerender?
   };
 
   return (

@@ -29,6 +29,7 @@ struct Vote {
 
 struct Question {
     string questionString;
+    string resolutionSource;
     uint256 expiry;
     Stage stage;
     Result result;
