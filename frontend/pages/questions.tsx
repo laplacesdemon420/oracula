@@ -1,18 +1,44 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
+import { ethers } from 'ethers';
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useContract,
+  useSigner,
+} from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
+import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
+import { addresses } from '../../contracts/addresses';
 import Table from '../components/Table';
 import { Question } from '../types';
+import { useState } from 'react';
 
 const Questions: NextPage = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Question>();
-  const onSubmit: SubmitHandler<Question> = (data) => console.log(data);
+  const [askQuestionLoading, setAskQuestionLoading] = useState(false);
+  const { data: signer } = useSigner();
+  const optimisticOracle = useContract({
+    addressOrName: addresses.goerli.oo,
+    contractInterface: OptimisticOracle.abi,
+    signerOrProvider: signer,
+  });
+
+  const { register, handleSubmit, watch, formState } = useForm<Question>();
+  const onSubmit: SubmitHandler<Question> = async (data) => {
+    console.log(data);
+    const question = [
+      data.questionString,
+      data.resolutionSource,
+      ethers.BigNumber.from(new Date(data.resolutionDate).getTime() / 1000),
+    ];
+
+    setAskQuestionLoading(true);
+    let tx = await optimisticOracle.askQuestion(...question);
+    await tx.wait();
+    console.log(tx.hash);
+    setAskQuestionLoading(false);
+  };
 
   return (
     <Container>
@@ -23,7 +49,7 @@ const Questions: NextPage = () => {
           <input
             className="question"
             placeholder="what question do you wanna ask?"
-            {...(register('questionString'), { required: true })}
+            {...register('questionString', { required: true })}
           />
           <p className="outcomes">Possible outcomes:</p>
           <OutcomeDiv>
@@ -37,25 +63,29 @@ const Questions: NextPage = () => {
             </p>
           </OutcomeDiv>
           <Resolution>
-            <Question className="source">
+            <StyledQuestion className="source">
               <label>Resolution source:</label>
               <input
                 className="resolution-source"
                 {...register('resolutionSource', { required: true })}
               />
-            </Question>
+            </StyledQuestion>
 
-            <Question>
+            <StyledQuestion>
               <label>Resolution date:</label>
               <input
                 className="resolution-date"
                 type="date"
                 {...register('resolutionDate', { required: true })}
               />
-            </Question>
+            </StyledQuestion>
           </Resolution>
-          {errors.resolutionSource && <span>This field is required</span>}
-          <Button type="submit">submit question</Button>
+          {formState.errors.resolutionSource && (
+            <span>This field is required</span>
+          )}
+          <Button type="submit">
+            {!askQuestionLoading ? 'submit question' : 'loading'}
+          </Button>
         </StyledForm>
       </Ask>
       <TableContainer>
@@ -109,7 +139,7 @@ const OutcomeDiv = styled.div`
   }
 `;
 
-const Question = styled.div`
+const StyledQuestion = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;

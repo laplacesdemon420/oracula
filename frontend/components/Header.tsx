@@ -13,7 +13,11 @@ export default function Header() {
         <p>DISPUTES</p>
       </MenuContainer>
       <ButtonContainer>
-        <ConnectButton chainStatus="icon" accountStatus="address" />
+        <ConnectButton
+          chainStatus="icon"
+          accountStatus="address"
+          showBalance={false}
+        />
       </ButtonContainer>
     </Container>
   );
