@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Header() {
   return (
@@ -12,7 +13,7 @@ export default function Header() {
         <p>DISPUTES</p>
       </MenuContainer>
       <ButtonContainer>
-        <Button>Connect</Button>
+        <ConnectButton chainStatus="icon" accountStatus="address" />
       </ButtonContainer>
     </Container>
   );
@@ -23,9 +24,9 @@ const Container = styled.div`
   top: 0;
   z-index: 100;
   padding: 0.75rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   background-color: ${({ theme }) => theme.background.primary};
   border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
 `;
@@ -40,9 +41,12 @@ const LogoContainer = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   font-weight: 600;
-  gap: 3rem;
+  gap: 1.5rem;
+  justify-self: center;
 `;
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  justify-self: end;
+`;
 
 const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
