@@ -15,10 +15,10 @@ import {
   compareItems,
 } from '@tanstack/match-sorter-utils';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import { Question } from '../types';
+import { QuestionType } from '../types';
 import { mockQuestions } from '../data/questions';
 
-const columnHelper = createColumnHelper<Question>();
+const columnHelper = createColumnHelper<QuestionType>();
 
 const columns = [
   columnHelper.accessor('questionString', {

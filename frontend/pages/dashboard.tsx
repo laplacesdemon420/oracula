@@ -4,7 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import { addresses } from '../../contracts/addresses';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import Table from '../components/Table';
+import Table from '../components/QuestionsTable';
 
 export async function getStaticProps() {
   // how to get questions? ask the subgraph

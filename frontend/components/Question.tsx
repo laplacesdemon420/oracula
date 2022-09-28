@@ -31,7 +31,7 @@ const InformationBox = ({ stage }: { stage: string }) => {
 };
 
 export default function Question() {
-  const stage: string = 'proposed';
+  const stage: string = 'asked';
 
   return (
     <Container>

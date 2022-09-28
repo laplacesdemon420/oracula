@@ -3,20 +3,19 @@ import styled from 'styled-components';
 import { ethers } from 'ethers';
 import { useContract, useSigner } from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import { addresses } from '../../../contracts/addresses';
-import Table from '../../components/QuestionsTable';
-import { QuestionType } from '../../types';
+import DisputesTable from '../../components/DisputesTable';
+import { DisputeType } from '../../types';
 import { useState } from 'react';
-import Question from '../../components/Question';
 
-const Questions: NextPage = () => {
+const Disputes: NextPage = () => {
   return (
     <Container>
-      <Question></Question>
       <TableContainer>
-        <h2>More Questions</h2>
-        <Table />
+        <h2>Disputes</h2>
+        <DisputesTable />
       </TableContainer>
     </Container>
   );
@@ -41,4 +40,18 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default Questions;
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.background.primary};
+  padding: 0.75rem 1.75rem;
+  border-radius: 10px;
+  font-size: ${({ theme }) => theme.typeScale.header6};
+  font-weight: 600;
+  cursor: pointer;
+
+  :hover {
+    background-color: ${({ theme }) => theme.colors.secondary};
+  }
+`;
+
+export default Disputes;

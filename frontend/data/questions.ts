@@ -1,6 +1,6 @@
-import { Question } from '../types';
+import { QuestionType } from '../types';
 
-export const mockQuestions: Question[] = [
+export const mockQuestions: QuestionType[] = [
   {
     questionString:
       'will the market cap of ETH be higher than BTC on 2023-01-01?',

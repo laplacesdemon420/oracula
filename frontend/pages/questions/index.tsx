@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import { addresses } from '../../../contracts/addresses';
-import Table from '../../components/Table';
+import Table from '../../components/QuestionsTable';
 import { QuestionType } from '../../types';
 import { useState } from 'react';
 

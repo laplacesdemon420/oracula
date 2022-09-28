@@ -28,3 +28,10 @@ export type QuestionType = {
   resolutionSource: string;
   resolutionDate: string;
 };
+
+export type DisputeType = {
+  questionString: string;
+  questionId: string;
+  phase: string;
+  nextPhase: number;
+};

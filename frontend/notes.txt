@@ -1,0 +1,6 @@
+stages:
+  - commit
+  - reveal
+  - claim rewards
+
+  
