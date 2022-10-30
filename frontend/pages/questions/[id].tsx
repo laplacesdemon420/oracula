@@ -9,6 +9,7 @@ import Table from '../../components/QuestionsTable';
 import { QuestionType } from '../../types';
 import { useState } from 'react';
 import Question from '../../components/Question';
+import { useRouter } from 'next/router';
 
 const Questions: NextPage = () => {
   return (

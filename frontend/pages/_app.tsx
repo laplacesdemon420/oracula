@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import '../styles/globals.css';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -14,6 +15,10 @@ import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from 'styled-components';
 import Layout from '../components/Layout';
 import { lightTheme, GlobalStyle } from '../design/themes';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient();
 
 const aurora: Chain = {
   id: 1313161554,
@@ -93,9 +98,12 @@ function MyApp({ Component, pageProps }: AppProps) {
             fontStack: 'system',
           })}
         >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ThemeProvider>

@@ -31,6 +31,8 @@ export default function Dashboard({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   console.log(response);
 
+  // get all questions
+
   return (
     <Container>
       <Inner>

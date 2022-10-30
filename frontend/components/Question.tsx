@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BsCheckCircleFill } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
 // gets the actual question
 
@@ -31,6 +32,12 @@ const InformationBox = ({ stage }: { stage: string }) => {
 };
 
 export default function Question() {
+  const { query } = useRouter();
+
+  console.log('qid:', query.id);
+
+  // get question here
+
   const stage: string = 'asked';
 
   return (
@@ -40,6 +47,7 @@ export default function Question() {
       </p>
       <Timeline>
         <Stage isActive={stage === 'asked'}>
+          {/* if now > expiry, should be possible to make a proposal */}
           <p>ASKED</p>
           <BsCheckCircleFill />
         </Stage>

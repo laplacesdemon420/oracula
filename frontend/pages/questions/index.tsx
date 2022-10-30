@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
-import { useContract, useSigner } from 'wagmi';
+import { useContract, useContractRead, useSigner } from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
@@ -14,14 +14,24 @@ const Questions: NextPage = () => {
   const [askQuestionLoading, setAskQuestionLoading] = useState(false);
   const { data: signer } = useSigner();
   const optimisticOracle = useContract({
-    addressOrName: addresses.goerli.oo,
-    contractInterface: OptimisticOracle.abi,
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
+
+  // get all questions here
+  const { data, isError, isLoading } = useContractRead({
+    address: '0x2d952753d50E43Ff34FdACE7b261312A2d5046df',
+    abi: OptimisticOracle.abi,
+    functionName: 'getAllQuestions',
+  });
+
+  console.log(data);
 
   const { register, handleSubmit, watch, formState } = useForm<QuestionType>();
   const onSubmit: SubmitHandler<QuestionType> = async (data) => {
     console.log(data);
+    return;
     const question = [
       data.questionString,
       data.resolutionSource,
@@ -29,7 +39,7 @@ const Questions: NextPage = () => {
     ];
 
     setAskQuestionLoading(true);
-    let tx = await optimisticOracle.askQuestion(...question);
+    let tx = await optimisticOracle?.askQuestion(...question);
     await tx.wait();
     console.log(tx.hash);
     setAskQuestionLoading(false);

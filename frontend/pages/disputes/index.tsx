@@ -11,6 +11,7 @@ import { DisputeType } from '../../types';
 import { useState } from 'react';
 
 const Disputes: NextPage = () => {
+  // get all questions, only keep the ones that are in the dispute stage
   return (
     <Container>
       <TableContainer>

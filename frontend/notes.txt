@@ -4,3 +4,21 @@ stages:
   - claim rewards
 
   
+- ask question
+  - just posted the question on chain
+
+- click on question
+  if
+  - asked
+      if now > res date, you can propose answer
+  - proposed
+      you can dispute
+  - disputed
+    and commit phase
+      - you can commit
+    and reveal phase
+      - you can reveal
+  - finalized
+    - claim reward if you voted on the right side
+
+- deploy erc20, that pipl can hold to be eligible

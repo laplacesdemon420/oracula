@@ -6,11 +6,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Question } from '../types';
+import { QuestionType } from '../types';
 import { useState } from 'react';
 import { mockQuestions } from '../data/questions';
 
-const columnHelper = createColumnHelper<Question>();
+const columnHelper = createColumnHelper<QuestionType>();
 
 const columns = [
   columnHelper.accessor('questionString', {
