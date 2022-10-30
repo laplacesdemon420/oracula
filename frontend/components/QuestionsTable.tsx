@@ -17,6 +17,10 @@ import {
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { QuestionType } from '../types';
 import { mockQuestions } from '../data/questions';
+import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
+import { addresses } from '../../contracts/addresses';
+import { useContractRead, useQuery } from 'wagmi';
+import { ethers } from 'ethers';
 
 const columnHelper = createColumnHelper<QuestionType>();
 
@@ -54,9 +58,27 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 };
 
 export default function Table() {
-  const [data, setData] = useState(() => [...mockQuestions]);
+  const [data, setData] = useState<QuestionType[]>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState('');
+
+  // get all questions here
+  const { data: questions } = useContractRead({
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
+    functionName: 'getAllQuestions',
+    select: (data: any) => {
+      return data.map((q: any) => {
+        return {
+          questionString: q.questionString,
+          resolutionSource: q.resolutionSource,
+          resolutionDate: q.expiry.toString(),
+          stage: q.stage,
+          result: q.result,
+        };
+      });
+    },
+  });
 
   const table = useReactTable({
     data,
@@ -103,6 +125,10 @@ export default function Table() {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    setData(questions as QuestionType[]);
+  }, [questions]);
 
   return (
     <Container>
