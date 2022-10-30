@@ -10,6 +10,7 @@ contract OptimisticOracle is OOInterface {
     mapping(bytes32 => Proposal) public proposalByQuestionId;
     mapping(bytes32 => address) public disputerByQuestionId;
     mapping(bytes32 => Vote) public voteByQuestionId;
+    bytes32[] public questionIds;
 
     IERC20 public currency;
     uint256 public BOND_AMOUNT;
@@ -41,6 +42,7 @@ contract OptimisticOracle is OOInterface {
             Result.INVALID
         );
         questionById[questionId] = question;
+        questionIds.push(questionId);
     }
 
     function proposeAnswer(bytes32 questionId, Result answer) external {
@@ -176,5 +178,13 @@ contract OptimisticOracle is OOInterface {
         uint256 expiry
     ) public pure returns (bytes32) {
         return keccak256(abi.encode(questionString, resolutionSource, expiry));
+    }
+
+    function getAllQuestions() public view returns (Question[] memory) {
+        Question[] memory questions = new Question[](questionIds.length);
+        for (uint256 i = 0; i < questionIds.length; i++) {
+            questions[i] = questionById[questionIds[i]];
+        }
+        return questions;
     }
 }

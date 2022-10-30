@@ -70,6 +70,11 @@ contract OptimisticOracleTest is Test {
         question = oo.getQuestionById(questionId);
         assertEq(uint256(question.stage), uint256(Stage.FINALIZED));
         assertEq(uint256(question.result), uint256(proposal.answer));
+
+        Question[] memory questions = oo.getAllQuestions();
+        question = oo.getQuestionById(questionId);
+
+        assertEq(uint256(questions[0].result), uint256(question.result));
     }
 
     function testQuestionSadPath() public {
