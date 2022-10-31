@@ -27,6 +27,7 @@ export type QuestionType = {
   stage?: string;
   resolutionSource: string;
   resolutionDate: string;
+  questionId?: string;
 };
 
 export type DisputeType = {

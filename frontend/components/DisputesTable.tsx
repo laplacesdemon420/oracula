@@ -10,8 +10,11 @@ import {
 } from '@tanstack/react-table';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import { DisputeType } from '../types';
+import { DisputeType, QuestionType } from '../types';
 import { mockDisputes } from '../data/disputes';
+import { useContractRead } from 'wagmi';
+import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
+import { addresses } from '../../contracts/addresses';
 
 const columnHelper = createColumnHelper<DisputeType>();
 
@@ -22,15 +25,15 @@ const columns = [
   }),
   columnHelper.accessor('questionId', {
     header: () => <span>Question ID</span>,
-    cell: (info) => info.getValue(),
+    cell: (info) => '<questionId>',
   }),
   columnHelper.accessor('phase', {
     header: () => <span>Phase</span>,
-    cell: (info) => info.getValue(),
+    cell: (info) => '<phase>',
   }),
   columnHelper.accessor('nextPhase', {
     header: () => <span>Next Phase</span>,
-    cell: (info) => info.getValue() + 's',
+    cell: (info) => '<nextPhase>',
   }),
 ];
 
@@ -48,9 +51,34 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 };
 
 export default function DisputesTable() {
-  const [data, setData] = useState(() => [...mockDisputes]);
+  const [data, setData] = useState<DisputeType[]>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState('');
+
+  const { data: questions } = useContractRead({
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
+    functionName: 'getAllQuestions',
+    select: (data: any) => {
+      return data
+        .filter((q: any) => q.stage === 0)
+        .map((q: any) => {
+          return {
+            questionString: q.questionString,
+            resolutionSource: q.resolutionSource,
+            resolutionDate: q.expiry.toString(),
+            stage: q.stage,
+            result: q.result,
+          };
+        })
+        .reverse();
+    },
+  });
+
+  // questionId can be derived on frontend
+
+  // get votes here, dependent on questions query
+  // votes will give use the phases
 
   const table = useReactTable({
     data,
@@ -97,6 +125,10 @@ export default function DisputesTable() {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    setData(questions as DisputeType[]);
+  }, [questions]);
 
   return (
     <Container>

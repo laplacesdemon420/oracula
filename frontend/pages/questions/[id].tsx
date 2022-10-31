@@ -12,6 +12,9 @@ import Question from '../../components/Question';
 import { useRouter } from 'next/router';
 
 const Questions: NextPage = () => {
+  const { query } = useRouter();
+  // console.log(query.id);
+
   return (
     <Container>
       <Question></Question>

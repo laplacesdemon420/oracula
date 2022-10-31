@@ -21,6 +21,7 @@ import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/Optimisti
 import { addresses } from '../../contracts/addresses';
 import { useContractRead, useQuery } from 'wagmi';
 import { ethers } from 'ethers';
+import Link from 'next/link';
 
 const columnHelper = createColumnHelper<QuestionType>();
 
@@ -40,6 +41,10 @@ const columns: any = [
   }),
   columnHelper.accessor('resolutionDate', {
     header: () => <span>Date</span>,
+    cell: (info) => info.renderValue(),
+  }),
+  columnHelper.accessor('questionId', {
+    header: () => <span>Question ID</span>,
     cell: (info) => info.renderValue(),
   }),
 ];
@@ -76,6 +81,13 @@ export default function Table() {
             resolutionDate: q.expiry.toString(),
             stage: q.stage,
             result: q.result,
+            questionId: ethers.utils
+              .keccak256(
+                ethers.utils.toUtf8Bytes(
+                  q.questionString + q.resolutionSource + q.expiry.toString()
+                )
+              )
+              .toString(),
           };
         })
         .reverse();
@@ -105,6 +117,7 @@ export default function Table() {
         stage: true,
         resolutionDate: false,
         resolutionSource: false,
+        questionId: false,
       });
     } else if (window.innerWidth < 1100) {
       setColumnVisibility({
@@ -112,6 +125,7 @@ export default function Table() {
         stage: true,
         resolutionDate: true,
         resolutionSource: false,
+        questionId: false,
       });
     } else {
       setColumnVisibility({
@@ -119,6 +133,7 @@ export default function Table() {
         stage: true,
         resolutionDate: true,
         resolutionSource: true,
+        questionId: false,
       });
     }
   };
@@ -160,20 +175,32 @@ export default function Table() {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr className={row.id} key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td className={cell.column.id} key={cell.id}>
-                  <div className={cell.column.id === 'stage' ? 'stage' : ''}>
-                    {cell.column.id === 'stage' ? (
-                      <RiCheckboxBlankCircleFill />
-                    ) : null}
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
+          {table.getRowModel().rows.map((row) => {
+            const questionId = row.original.questionId.slice(2);
+            return (
+              <tr className={row.id} key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td className={cell.column.id} key={cell.id}>
+                      <Link href={`/questions/${questionId}`}>
+                        <a
+                          className={cell.column.id === 'stage' ? 'stage' : ''}
+                        >
+                          {cell.column.id === 'stage' ? (
+                            <RiCheckboxBlankCircleFill />
+                          ) : null}
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </a>
+                      </Link>
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </StyledTable>
     </Container>

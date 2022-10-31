@@ -36,9 +36,9 @@ export default function Question() {
 
   console.log('qid:', query.id);
 
-  // get question here
+  // get actual question here
 
-  const stage: string = 'asked';
+  const stage: string = 'proposed';
 
   return (
     <Container>
