@@ -24,7 +24,7 @@ import { ethers } from 'ethers';
 
 const columnHelper = createColumnHelper<QuestionType>();
 
-const columns = [
+const columns: any = [
   columnHelper.accessor('questionString', {
     header: () => <span>Question</span>,
     cell: (info) => info.getValue(),
@@ -68,16 +68,19 @@ export default function Table() {
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {
-      return data.map((q: any) => {
-        return {
-          questionString: q.questionString,
-          resolutionSource: q.resolutionSource,
-          resolutionDate: q.expiry.toString(),
-          stage: q.stage,
-          result: q.result,
-        };
-      });
+      return data
+        .map((q: any) => {
+          return {
+            questionString: q.questionString,
+            resolutionSource: q.resolutionSource,
+            resolutionDate: q.expiry.toString(),
+            stage: q.stage,
+            result: q.result,
+          };
+        })
+        .reverse();
     },
+    watch: true,
   });
 
   const table = useReactTable({

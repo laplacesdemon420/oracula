@@ -35,7 +35,9 @@ const Questions: NextPage = () => {
   const { register, handleSubmit, watch, formState } = useForm<QuestionType>();
   const onSubmit: SubmitHandler<QuestionType> = async (data) => {
     console.log(data);
-    return;
+
+    if (!optimisticOracle) return;
+
     const question = [
       data.questionString,
       data.resolutionSource,
@@ -43,9 +45,13 @@ const Questions: NextPage = () => {
     ];
 
     setAskQuestionLoading(true);
-    let tx = await optimisticOracle?.askQuestion(...question);
-    await tx.wait();
-    console.log(tx.hash);
+    try {
+      let tx = await optimisticOracle.askQuestion(...question);
+      await tx.wait();
+      console.log(tx.hash);
+    } catch (e) {
+      console.log(e);
+    }
     setAskQuestionLoading(false);
 
     // now the created question should be added to the top of the table
@@ -96,7 +102,7 @@ const Questions: NextPage = () => {
             <span>This field is required</span>
           )}
           <Button type="submit">
-            {!askQuestionLoading ? 'submit question' : 'loading'}
+            {!askQuestionLoading ? 'submit question' : 'loading...'}
           </Button>
         </StyledForm>
       </Ask>
