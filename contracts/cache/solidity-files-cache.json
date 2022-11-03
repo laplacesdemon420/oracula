@@ -644,8 +644,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/OptimisticOracle.sol": {
-      "lastModificationDate": 1667120127035,
-      "contentHash": "6fdad3aa5151889ff61750ee3e0fd3cc",
+      "lastModificationDate": 1667461023440,
+      "contentHash": "24f84ed520a1211e8c52a68ad17aa311",
       "sourceName": "src/OptimisticOracle.sol",
       "solcConfig": {
         "settings": {

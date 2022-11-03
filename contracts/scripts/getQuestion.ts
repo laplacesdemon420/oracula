@@ -15,13 +15,18 @@ const main = async () => {
 
   const oo = ooFactory.attach(addresses.goerli.oo);
 
-  let tx = await oo.askQuestion(
-    'Will $BTC be over 20000 on 2023-01-01?',
-    'https://coingecko.com',
-    1672531200
+  const id = await oo.getQuestionId(
+    'will joe biden be president on 2023-01-01?',
+    'https://usa.gov',
+    '1672531200'
   );
-  await tx.wait();
-  console.log('question asked: ', tx.hash);
+  console.log(id);
+  // console.log(ethers.utils.parseBytes32String(id));
+
+  const questions = await oo.getQuestionById(
+    '0x7a3f8bff527e02aa0c592125a5b4ea011865ca8dd6e083941b7b6a2c3f62bc92'
+  );
+  console.log(questions);
 };
 
 const runMain = async () => {

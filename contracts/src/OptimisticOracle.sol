@@ -38,6 +38,7 @@ contract OptimisticOracle is OOInterface {
             questionString,
             resolutionSource,
             expiry,
+            questionId,
             Stage.PENDING,
             Result.INVALID
         );

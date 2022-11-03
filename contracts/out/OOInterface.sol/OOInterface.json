@@ -113,21 +113,21 @@
     "absolutePath": "/Users/alexander/dev/opti/contracts/src/interfaces/OOInterface.sol",
     "exportedSymbols": {
       "DVMInterface": [
-        24736
+        24739
       ],
       "OOInterface": [
-        24735
+        24738
       ],
       "Result": [
-        24655
+        24656
       ]
     },
-    "id": 24737,
+    "id": 24740,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 24692,
+        "id": 24695,
         "literals": [
           "solidity",
           "0.8",
@@ -139,20 +139,20 @@
       {
         "absolutePath": "/Users/alexander/dev/opti/contracts/src/datastructures/structures.sol",
         "file": "../datastructures/structures.sol",
-        "id": 24694,
+        "id": 24697,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 24737,
-        "sourceUnit": 24691,
+        "scope": 24740,
+        "sourceUnit": 24694,
         "src": "64:56:18",
         "symbolAliases": [
           {
             "foreign": {
-              "id": 24693,
+              "id": 24696,
               "name": "Result",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 24655,
+              "referencedDeclaration": 24656,
               "src": "72:6:18",
               "typeDescriptions": {}
             },
@@ -168,9 +168,9 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 24735,
+        "id": 24738,
         "linearizedBaseContracts": [
-          24735
+          24738
         ],
         "name": "OOInterface",
         "nameLocation": "132:11:18",
@@ -178,7 +178,7 @@
         "nodes": [
           {
             "functionSelector": "516fa910",
-            "id": 24703,
+            "id": 24706,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -186,17 +186,17 @@
             "nameLocation": "159:11:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24701,
+              "id": 24704,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24696,
+                  "id": 24699,
                   "mutability": "mutable",
                   "name": "questionString",
                   "nameLocation": "194:14:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24703,
+                  "scope": 24706,
                   "src": "180:28:18",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -205,7 +205,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 24695,
+                    "id": 24698,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "180:6:18",
@@ -218,12 +218,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 24698,
+                  "id": 24701,
                   "mutability": "mutable",
                   "name": "resolutionSource",
                   "nameLocation": "232:16:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24703,
+                  "scope": 24706,
                   "src": "218:30:18",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -232,7 +232,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 24697,
+                    "id": 24700,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "218:6:18",
@@ -245,12 +245,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 24700,
+                  "id": 24703,
                   "mutability": "mutable",
                   "name": "expiry",
                   "nameLocation": "266:6:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24703,
+                  "scope": 24706,
                   "src": "258:14:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -259,7 +259,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 24699,
+                    "id": 24702,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "258:7:18",
@@ -274,12 +274,12 @@
               "src": "170:108:18"
             },
             "returnParameters": {
-              "id": 24702,
+              "id": 24705,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "287:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "150:138:18",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -287,7 +287,7 @@
           },
           {
             "functionSelector": "5d9032b9",
-            "id": 24711,
+            "id": 24714,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -295,17 +295,17 @@
             "nameLocation": "303:13:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24709,
+              "id": 24712,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24705,
+                  "id": 24708,
                   "mutability": "mutable",
                   "name": "questionId",
                   "nameLocation": "325:10:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24711,
+                  "scope": 24714,
                   "src": "317:18:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -314,7 +314,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 24704,
+                    "id": 24707,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "317:7:18",
@@ -327,33 +327,33 @@
                 },
                 {
                   "constant": false,
-                  "id": 24708,
+                  "id": 24711,
                   "mutability": "mutable",
                   "name": "answer",
                   "nameLocation": "344:6:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24711,
+                  "scope": 24714,
                   "src": "337:13:18",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Result_$24655",
+                    "typeIdentifier": "t_enum$_Result_$24656",
                     "typeString": "enum Result"
                   },
                   "typeName": {
-                    "id": 24707,
+                    "id": 24710,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 24706,
+                      "id": 24709,
                       "name": "Result",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 24655,
+                      "referencedDeclaration": 24656,
                       "src": "337:6:18"
                     },
-                    "referencedDeclaration": 24655,
+                    "referencedDeclaration": 24656,
                     "src": "337:6:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Result_$24655",
+                      "typeIdentifier": "t_enum$_Result_$24656",
                       "typeString": "enum Result"
                     }
                   },
@@ -363,12 +363,12 @@
               "src": "316:35:18"
             },
             "returnParameters": {
-              "id": 24710,
+              "id": 24713,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "360:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "294:67:18",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -376,7 +376,7 @@
           },
           {
             "functionSelector": "47d0da14",
-            "id": 24716,
+            "id": 24719,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -384,17 +384,17 @@
             "nameLocation": "376:16:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24714,
+              "id": 24717,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24713,
+                  "id": 24716,
                   "mutability": "mutable",
                   "name": "questionId",
                   "nameLocation": "401:10:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24716,
+                  "scope": 24719,
                   "src": "393:18:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -403,7 +403,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 24712,
+                    "id": 24715,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "393:7:18",
@@ -418,12 +418,12 @@
               "src": "392:20:18"
             },
             "returnParameters": {
-              "id": 24715,
+              "id": 24718,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "421:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "367:55:18",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -431,7 +431,7 @@
           },
           {
             "functionSelector": "6af97c05",
-            "id": 24721,
+            "id": 24724,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -439,17 +439,17 @@
             "nameLocation": "437:15:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24719,
+              "id": 24722,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24718,
+                  "id": 24721,
                   "mutability": "mutable",
                   "name": "questionId",
                   "nameLocation": "461:10:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24721,
+                  "scope": 24724,
                   "src": "453:18:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -458,7 +458,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 24717,
+                    "id": 24720,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "453:7:18",
@@ -473,12 +473,12 @@
               "src": "452:20:18"
             },
             "returnParameters": {
-              "id": 24720,
+              "id": 24723,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "481:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "428:54:18",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -486,7 +486,7 @@
           },
           {
             "functionSelector": "21f98a15",
-            "id": 24729,
+            "id": 24732,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -494,17 +494,17 @@
             "nameLocation": "497:8:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24727,
+              "id": 24730,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24723,
+                  "id": 24726,
                   "mutability": "mutable",
                   "name": "questionId",
                   "nameLocation": "514:10:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24729,
+                  "scope": 24732,
                   "src": "506:18:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -513,7 +513,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 24722,
+                    "id": 24725,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "506:7:18",
@@ -526,33 +526,33 @@
                 },
                 {
                   "constant": false,
-                  "id": 24726,
+                  "id": 24729,
                   "mutability": "mutable",
                   "name": "answer",
                   "nameLocation": "533:6:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24729,
+                  "scope": 24732,
                   "src": "526:13:18",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Result_$24655",
+                    "typeIdentifier": "t_enum$_Result_$24656",
                     "typeString": "enum Result"
                   },
                   "typeName": {
-                    "id": 24725,
+                    "id": 24728,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 24724,
+                      "id": 24727,
                       "name": "Result",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 24655,
+                      "referencedDeclaration": 24656,
                       "src": "526:6:18"
                     },
-                    "referencedDeclaration": 24655,
+                    "referencedDeclaration": 24656,
                     "src": "526:6:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Result_$24655",
+                      "typeIdentifier": "t_enum$_Result_$24656",
                       "typeString": "enum Result"
                     }
                   },
@@ -562,12 +562,12 @@
               "src": "505:35:18"
             },
             "returnParameters": {
-              "id": 24728,
+              "id": 24731,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "549:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "488:62:18",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -575,7 +575,7 @@
           },
           {
             "functionSelector": "8b75d75a",
-            "id": 24734,
+            "id": 24737,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -583,17 +583,17 @@
             "nameLocation": "565:12:18",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 24732,
+              "id": 24735,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 24731,
+                  "id": 24734,
                   "mutability": "mutable",
                   "name": "questionId",
                   "nameLocation": "586:10:18",
                   "nodeType": "VariableDeclaration",
-                  "scope": 24734,
+                  "scope": 24737,
                   "src": "578:18:18",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -602,7 +602,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 24730,
+                    "id": 24733,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "578:7:18",
@@ -617,19 +617,19 @@
               "src": "577:20:18"
             },
             "returnParameters": {
-              "id": 24733,
+              "id": 24736,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "606:0:18"
             },
-            "scope": 24735,
+            "scope": 24738,
             "src": "556:51:18",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 24737,
+        "scope": 24740,
         "src": "122:487:18",
         "usedErrors": []
       },
@@ -640,15 +640,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": true,
-        "id": 24736,
+        "id": 24739,
         "linearizedBaseContracts": [
-          24736
+          24739
         ],
         "name": "DVMInterface",
         "nameLocation": "621:12:18",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 24737,
+        "scope": 24740,
         "src": "611:110:18",
         "usedErrors": []
       }

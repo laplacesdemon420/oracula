@@ -1,7 +1,7 @@
 export const addresses = {
   goerli: {
-    token: '0x2EbAa43B0A1E2009c22Fdbd2d146D0F375E3081b',
-    oo: '0xb04819befF103369331882e97fd5DFB12bC5Ce6E',
+    token: '0x5078E54E37C98BDF2624f671cbeC46dF62467EAB',
+    oo: '0x2A50dB7D9Bc546458fa69f3FA5d29738cEEB0f78',
   },
   aurora: {
     token: '',

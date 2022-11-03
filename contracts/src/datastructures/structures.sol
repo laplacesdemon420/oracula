@@ -31,6 +31,7 @@ struct Question {
     string questionString;
     string resolutionSource;
     uint256 expiry;
+    bytes32 questionId; // unnecessary I know
     Stage stage;
     Result result;
 }

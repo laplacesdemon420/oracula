@@ -1,25 +1,22 @@
 import { ethers } from 'ethers';
-import OPTI from '../out/Token.sol/OPTI.json';
 import 'dotenv/config';
-
-const address = '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6';
+import OptimisticOracle from '../out/OptimisticOracle.sol/OptimisticOracle.json';
+import { addresses } from '../addresses';
 
 const main = async () => {
   const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
   const wallet = new ethers.Wallet(process.env.pk as string, provider);
 
-  const tokenFactory = new ethers.ContractFactory(
-    OPTI.abi,
-    OPTI.bytecode,
+  const ooFactory = new ethers.ContractFactory(
+    OptimisticOracle.abi,
+    OptimisticOracle.bytecode,
     wallet
   );
 
-  let opti = await tokenFactory.deploy();
-  await opti.deployed();
-  console.log('OPTI token deployed at:', opti.address);
+  const oo = ooFactory.attach(addresses.goerli.oo);
 
-  await opti.mint(address, ethers.utils.parseEther('100'));
-  console.log('minted 100 OPTI tokens');
+  const questions = await oo.getAllQuestions();
+  console.log(questions);
 };
 
 const runMain = async () => {
