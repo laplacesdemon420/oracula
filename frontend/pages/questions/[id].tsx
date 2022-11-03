@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
-import { useContract, useSigner } from 'wagmi';
+import { useContract, useContractRead, useSigner } from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import { addresses } from '../../../contracts/addresses';
@@ -18,10 +18,10 @@ const Questions: NextPage = () => {
   return (
     <Container>
       <Question></Question>
-      <TableContainer>
+      {/* <TableContainer>
         <h2>More Questions</h2>
         <Table />
-      </TableContainer>
+      </TableContainer> */}
     </Container>
   );
 };

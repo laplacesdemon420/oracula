@@ -39,8 +39,8 @@ const Questions: NextPage = () => {
     if (!optimisticOracle) return;
 
     const question = [
-      data.questionString,
-      data.resolutionSource,
+      data.questionString.toLowerCase(),
+      data.resolutionSource.toLowerCase(),
       ethers.BigNumber.from(new Date(data.resolutionDate).getTime() / 1000),
     ];
 

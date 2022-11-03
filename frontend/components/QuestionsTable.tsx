@@ -81,13 +81,7 @@ export default function Table() {
             resolutionDate: q.expiry.toString(),
             stage: q.stage,
             result: q.result,
-            questionId: ethers.utils
-              .keccak256(
-                ethers.utils.toUtf8Bytes(
-                  q.questionString + q.resolutionSource + q.expiry.toString()
-                )
-              )
-              .toString(),
+            questionId: q.questionId,
           };
         })
         .reverse();
@@ -177,6 +171,7 @@ export default function Table() {
         <tbody>
           {table.getRowModel().rows.map((row) => {
             const questionId = row.original.questionId.slice(2);
+            // console.log('questionId:', questionId);
             return (
               <tr className={row.id} key={row.id}>
                 {row.getVisibleCells().map((cell) => {
