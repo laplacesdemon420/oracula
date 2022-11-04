@@ -1,111 +1,12 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
-import { ethers } from 'ethers';
-import { useContract, useContractRead, useQuery, useSigner } from 'wagmi';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import OptimisticOracle from '../../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import { addresses } from '../../../contracts/addresses';
 import Table from '../../components/QuestionsTable';
-import { QuestionType } from '../../types';
-import { useState } from 'react';
-
-const getQuestions = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    'https://eth-goerli.g.alchemy.com/v2/znkdwOXMSH8ZA3f3CFYPgzHQ7l-iYiql'
-  );
-  const oo = new ethers.Contract(
-    addresses.goerli.oo,
-    OptimisticOracle.abi,
-    provider
-  );
-  const questions = await oo.getAllQuestions();
-  return questions;
-};
+import AskQuestion from '../../components/AskQuestion';
 
 const Questions: NextPage = () => {
-  const [askQuestionLoading, setAskQuestionLoading] = useState(false);
-  const { data: signer } = useSigner();
-  const optimisticOracle = useContract({
-    address: addresses.goerli.oo,
-    abi: OptimisticOracle.abi,
-    signerOrProvider: signer,
-  });
-
-  const { register, handleSubmit, watch, formState } = useForm<QuestionType>();
-  const onSubmit: SubmitHandler<QuestionType> = async (data) => {
-    console.log(data);
-
-    if (!optimisticOracle) return;
-
-    const question = [
-      data.questionString.toLowerCase(),
-      data.resolutionSource.toLowerCase(),
-      ethers.BigNumber.from(new Date(data.resolutionDate).getTime() / 1000),
-    ];
-
-    setAskQuestionLoading(true);
-    try {
-      let tx = await optimisticOracle.askQuestion(...question);
-      await tx.wait();
-      console.log(tx.hash);
-    } catch (e) {
-      console.log(e);
-    }
-    setAskQuestionLoading(false);
-
-    // now the created question should be added to the top of the table
-    // maybe, just trigger a rerender?
-  };
-
   return (
     <Container>
-      <Ask>
-        <h1>ASK ANY QUESTION!</h1>
-        {/* "handleSubmit" will validate your inputs before invoking "onSubmit"  */}
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className="question"
-            placeholder="what question do you wanna ask?"
-            {...register('questionString', { required: true })}
-          />
-          <p className="outcomes">Possible outcomes:</p>
-          <OutcomeDiv>
-            <p className="upper">
-              <RiCheckboxBlankCircleFill />
-              Yes
-            </p>
-            <p className="lower">
-              <RiCheckboxBlankCircleFill />
-              No
-            </p>
-          </OutcomeDiv>
-          <Resolution>
-            <StyledQuestion className="source">
-              <label>Resolution source:</label>
-              <input
-                className="resolution-source"
-                {...register('resolutionSource', { required: true })}
-              />
-            </StyledQuestion>
-
-            <StyledQuestion>
-              <label>Resolution date:</label>
-              <input
-                className="resolution-date"
-                type="date"
-                {...register('resolutionDate', { required: true })}
-              />
-            </StyledQuestion>
-          </Resolution>
-          {formState.errors.resolutionSource && (
-            <span>This field is required</span>
-          )}
-          <Button type="submit">
-            {!askQuestionLoading ? 'submit question' : 'loading...'}
-          </Button>
-        </StyledForm>
-      </Ask>
+      <AskQuestion></AskQuestion>
       <TableContainer>
         <h2>Questions</h2>
         <Table />

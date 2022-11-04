@@ -26,6 +26,18 @@ import { timestampToDate } from '../utils';
 
 const columnHelper = createColumnHelper<QuestionType>();
 
+const lightColumns: any = [
+  columnHelper.accessor('questionString', {
+    header: () => <span>Question</span>,
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor((row) => row.resolutionSource, {
+    id: 'resolutionSource',
+    header: () => <span>Resolution Source</span>,
+    cell: (info) => <i>{info.getValue()}</i>,
+  }),
+];
+
 const columns: any = [
   columnHelper.accessor('questionString', {
     header: () => <span>Question</span>,
@@ -62,6 +74,104 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Return if the item should be filtered in/out
   return itemRank.passed;
 };
+
+export function LightTable() {
+  const [data, setData] = useState<QuestionType[]>([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [globalFilter, setGlobalFilter] = useState('');
+
+  // get all questions here
+  // const { data: questions } = useContractRead({
+  //   address: addresses.goerli.oo,
+  //   abi: OptimisticOracle.abi,
+  //   functionName: 'getAllQuestions',
+  //   select: (data: any) => {
+  //     return data
+  //       .map((q: any) => {
+  //         return {
+  //           questionString: q.questionString,
+  //           resolutionSource: q.resolutionSource,
+  //           resolutionDate: timestampToDate(q.expiry.toString(), 'seconds'),
+  //           timestamp: q.expiry.toString(),
+  //           stage: q.stage,
+  //           result: q.result,
+  //           questionId: q.questionId,
+  //         };
+  //       })
+  //       .reverse();
+  //   },
+  //   watch: true,
+  // });
+
+  const table = useReactTable({
+    data,
+    columns: lightColumns,
+    state: {
+      columnVisibility,
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
+
+  useEffect(() => {
+    setData(mockQuestions.slice(0, 9) as QuestionType[]);
+  }, []);
+
+  return (
+    <Container>
+      <StyledTable>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th className={header.id} key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => {
+            const questionId = row.original.questionId.slice(2);
+            // console.log('questionId:', questionId);
+            return (
+              <tr className={row.id} key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td className={cell.column.id} key={cell.id}>
+                      <Link href={`/questions/${questionId}`}>
+                        <a
+                          className={cell.column.id === 'stage' ? 'stage' : ''}
+                        >
+                          {cell.column.id === 'stage' ? (
+                            <RiCheckboxBlankCircleFill />
+                          ) : null}
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </a>
+                      </Link>
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </StyledTable>
+    </Container>
+  );
+}
 
 export default function Table() {
   const [data, setData] = useState<QuestionType[]>([]);
