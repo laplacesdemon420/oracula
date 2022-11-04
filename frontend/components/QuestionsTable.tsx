@@ -22,6 +22,7 @@ import { addresses } from '../../contracts/addresses';
 import { useContractRead, useQuery } from 'wagmi';
 import { ethers } from 'ethers';
 import Link from 'next/link';
+import { timestampToDate } from '../utils';
 
 const columnHelper = createColumnHelper<QuestionType>();
 
@@ -78,7 +79,8 @@ export default function Table() {
           return {
             questionString: q.questionString,
             resolutionSource: q.resolutionSource,
-            resolutionDate: q.expiry.toString(),
+            resolutionDate: timestampToDate(q.expiry.toString(), 'seconds'),
+            timestamp: q.expiry.toString(),
             stage: q.stage,
             result: q.result,
             questionId: q.questionId,
