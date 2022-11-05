@@ -6,31 +6,7 @@ import { addresses } from '../../contracts/addresses';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Table from '../components/QuestionsTable';
 
-export async function getStaticProps() {
-  // how to get questions? ask the subgraph
-  // TODO: learn about the graph and write a subgraph
-
-  const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
-  const oo = new ethers.Contract(
-    addresses.goerli.oo,
-    OptimisticOracle.abi,
-    provider
-  );
-  let response = await oo.BOND_AMOUNT();
-  console.log(response);
-
-  return {
-    props: {
-      response: ethers.utils.formatEther(response),
-    },
-  };
-}
-
-export default function Dashboard({
-  response,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(response);
-
+export default function Dashboard() {
   // get all questions
 
   return (

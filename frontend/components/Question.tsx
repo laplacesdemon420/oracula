@@ -16,12 +16,16 @@ export default function Question() {
   console.log('qid:', query.id);
 
   // get actual question here
-  const { data: question }: { data: any } = useContractRead({
+  const {
+    data: question,
+    refetch: refetchQuestion,
+  }: { data: any; refetch: any } = useContractRead({
     address: addresses.goerli.oo,
     abi: OptimisticOracle.abi,
     functionName: 'getQuestionById',
     args: ['0x' + query.id],
     enabled: !!query.id,
+    watch: true,
   });
 
   const { data: proposal } = useContractRead({
@@ -30,6 +34,7 @@ export default function Question() {
     functionName: 'getProposalByQuestionId',
     args: ['0x' + query.id],
     enabled: !!query.id,
+    watch: true,
   });
 
   const { data: vote } = useContractRead({
@@ -68,7 +73,12 @@ export default function Question() {
           {question?.stage === 3 ? <BsCheckCircleFill /> : null}
         </Stage>
       </Timeline>
-      <QuestionInfo question={question} proposal={proposal} vote={vote} />
+      <QuestionInfo
+        question={question}
+        refetchQuestion={refetchQuestion}
+        proposal={proposal}
+        vote={vote}
+      />
     </Container>
   );
 }

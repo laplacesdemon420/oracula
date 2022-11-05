@@ -45,7 +45,11 @@ const columns: any = [
   }),
   columnHelper.accessor('stage', {
     header: () => <span>Stage</span>,
-    cell: (info) => info.getValue(),
+    cell: (info) => {
+      let words = ['asked', 'proposed', 'disputed', 'finalized'];
+      let value = info.getValue();
+      return words[parseInt(value ? value : '0')];
+    },
   }),
   columnHelper.accessor((row) => row.resolutionSource, {
     id: 'resolutionSource',

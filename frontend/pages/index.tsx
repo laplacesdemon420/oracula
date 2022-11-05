@@ -76,13 +76,6 @@ const Home: NextPage = () => {
               in-depth.
             </p>
           </div>
-          {/* <div className="box">
-            <p className="header">Support for TRC721m</p>
-            <p>
-              Genie shows listings from all major marketplaces so you can
-              discover more in fewer tabs.
-            </p>
-          </div> */}
         </div>
       </Bottom>
     </Container>

@@ -8,9 +8,11 @@ import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/Optimisti
 import { addresses } from '../../contracts/addresses';
 import { QuestionType } from '../types';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function AskQuestion() {
   const [askQuestionLoading, setAskQuestionLoading] = useState(false);
+  const [askedQuestion, setAskedQuestion] = useState('');
   const { data: signer } = useSigner();
   const optimisticOracle = useContract({
     address: addresses.goerli.oo,
@@ -30,6 +32,27 @@ export default function AskQuestion() {
       ethers.BigNumber.from(new Date(data.resolutionDate).getTime() / 1000),
     ];
 
+    console.log(
+      ethers.BigNumber.from(
+        new Date(data.resolutionDate).getTime() / 1000
+      ).toString()
+    );
+
+    const questionId = ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ['string', 'string', 'uint'],
+        [
+          data.questionString.toLowerCase(),
+          data.resolutionSource.toLowerCase(),
+          ethers.BigNumber.from(
+            new Date(data.resolutionDate).getTime() / 1000
+          ).toString(),
+        ]
+      )
+    );
+
+    console.log('questionId:', questionId);
+
     setAskQuestionLoading(true);
     try {
       let tx = await optimisticOracle.askQuestion(...question);
@@ -39,6 +62,11 @@ export default function AskQuestion() {
       console.log(e);
     }
     setAskQuestionLoading(false);
+
+    setAskedQuestion(questionId.slice(2));
+    setTimeout(() => {
+      setAskedQuestion('');
+    }, 15000);
 
     // now the created question should be added to the top of the table
     // maybe, just trigger a rerender?
@@ -89,6 +117,11 @@ export default function AskQuestion() {
         <Button type="submit">
           {!askQuestionLoading ? 'submit question' : 'loading...'}
         </Button>
+        {askedQuestion !== '' && (
+          <Link href={`/questions/${askedQuestion}`}>
+            <a>Go to question</a>
+          </Link>
+        )}
       </StyledForm>
     </Ask>
   );
@@ -191,6 +224,15 @@ const StyledForm = styled.form`
 
   .outcomes {
     font-size: ${({ theme }) => theme.typeScale.smallParagraph};
+  }
+
+  a {
+    font-weight: 600;
+    font-size: 1.25rem;
+    cursor: pointer;
+    :hover {
+      color: ${({ theme }) => theme.colors.secondary};
+    }
   }
   @media screen and (max-width: 700px) {
     /* width: 80%; */

@@ -19,67 +19,14 @@ import { useState } from 'react';
 
 // gets the actual question
 
-const ProposeForm = styled.form<{ isReady: boolean }>`
-  opacity: ${({ isReady }) => (isReady ? '1' : '0.25')};
-  cursor: ${({ isReady }) => (isReady ? 'default' : 'not-allowed')};
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  div {
-    display: flex;
-    gap: 1rem;
-    label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1.25rem;
-      input {
-        height: 27px;
-        width: 27px;
-      }
-    }
-  }
-  .propose-button {
-    margin-left: 1.25rem;
-    background-color: black;
-    color: white;
-    font-weight: 600;
-    font-size: 1.15rem;
-    padding: 10px 16px;
-    border-radius: 7px;
-    :hover {
-      cursor: ${({ isReady }) => (isReady ? 'pointer' : 'default')};
-      transition: all 0.25s ease;
-      transform: scale(1.025) perspective(1px);
-    }
-  }
-`;
-
-const ApproveDiv = styled.div`
-  display: flex;
-  .approve-button {
-    background-color: black;
-    color: white;
-    font-weight: 600;
-    font-size: 1.15rem;
-    padding: 10px 16px;
-    border-radius: 7px;
-    /* width: 25%; */
-    :hover {
-      cursor: pointer;
-      transition: all 0.25s ease;
-      transform: scale(1.025) perspective(1px);
-    }
-  }
-`;
-
 export default function QuestionInfo({
   question,
+  refetchQuestion,
   proposal,
   vote,
 }: {
   question: any;
+  refetchQuestion: any;
   proposal: any;
   vote: any;
 }) {
@@ -126,6 +73,7 @@ export default function QuestionInfo({
     } catch (e) {
       console.log(e);
     }
+    // await refetchQuestion();
     setProposalLoading(false);
   };
 
@@ -163,7 +111,7 @@ export default function QuestionInfo({
     try {
       let approval = await tokenContract.approve(
         addresses.goerli.oo,
-        ethers.utils.parseEther('10')
+        ethers.utils.parseEther('100')
       );
       await approval.wait();
       console.log(approval.hash);
@@ -254,7 +202,7 @@ export default function QuestionInfo({
               className="propose-button"
               disabled={!readyToPropose || isApproved === false}
             >
-              propose
+              {proposalLoading ? 'proposing...' : 'propose'}
             </button>
           </div>
         </ProposeForm>
@@ -265,10 +213,12 @@ export default function QuestionInfo({
     console.log('1:', proposal?.timestamp.toString());
     console.log('2:', Math.floor(new Date().getTime() / 1000));
 
-    const ttf =
+    let ttf = Math.max(
       parseInt(proposal?.timestamp.toString()) +
-      600 -
-      Math.floor(new Date().getTime() / 1000);
+        600 -
+        Math.floor(new Date().getTime() / 1000),
+      0
+    );
 
     return (
       <div className="info">
@@ -283,7 +233,7 @@ export default function QuestionInfo({
         </p>
         <p className="headers">Time to Finality: {ttf}s</p>
         {finalizationLoading ? (
-          <Button>Loading</Button>
+          <Button>Loading...</Button>
         ) : ttf > 0 ? (
           <Button>DISPUTE</Button>
         ) : (
@@ -312,8 +262,16 @@ export default function QuestionInfo({
   } else if (question?.stage === 3) {
     return (
       <div className="info">
-        <p className="headers">Proposal: Yes by 0xdeadbeef...1337</p>
-        <p className="headers">Finalized by 0xbadc0ffee...1338</p>
+        <Finalized>
+          <p className="header">Finalized answer:</p>
+          <p className="answer">
+            {question?.result === 0
+              ? 'INVALID'
+              : question?.result === 1
+              ? 'YES'
+              : 'NO'}{' '}
+          </p>
+        </Finalized>
       </div>
     );
   }
@@ -324,6 +282,22 @@ export default function QuestionInfo({
     </div>
   );
 }
+
+const Finalized = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  .header {
+    font-weight: 800;
+    font-size: 2rem;
+  }
+  .answer {
+    font-weight: 800;
+    font-size: 2.5rem;
+  }
+`;
 
 const Phase = styled.div<{ isActive: boolean }>`
   display: flex;
@@ -368,5 +342,60 @@ const Button = styled.button`
 
   :hover {
     background-color: ${({ theme }) => theme.colors.secondary};
+  }
+`;
+
+const ProposeForm = styled.form<{ isReady: boolean }>`
+  opacity: ${({ isReady }) => (isReady ? '1' : '0.25')};
+  cursor: ${({ isReady }) => (isReady ? 'default' : 'not-allowed')};
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  div {
+    display: flex;
+    gap: 1rem;
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      input {
+        height: 27px;
+        width: 27px;
+      }
+    }
+  }
+  .propose-button {
+    margin-left: 1.25rem;
+    background-color: black;
+    color: white;
+    font-weight: 600;
+    font-size: 1.15rem;
+    padding: 10px 16px;
+    border-radius: 7px;
+    :hover {
+      cursor: ${({ isReady }) => (isReady ? 'pointer' : 'default')};
+      transition: all 0.25s ease;
+      transform: scale(1.025) perspective(1px);
+    }
+  }
+`;
+
+const ApproveDiv = styled.div`
+  display: flex;
+  .approve-button {
+    background-color: black;
+    color: white;
+    font-weight: 600;
+    font-size: 1.15rem;
+    padding: 10px 16px;
+    border-radius: 7px;
+    /* width: 25%; */
+    :hover {
+      cursor: pointer;
+      transition: all 0.25s ease;
+      transform: scale(1.025) perspective(1px);
+    }
   }
 `;
