@@ -18,7 +18,7 @@ const main = async () => {
   await opti.deployed();
   console.log('OPTI token deployed at:', opti.address);
 
-  await opti.mint(address, ethers.utils.parseEther('100'));
+  await opti.mint(address, ethers.utils.parseEther('10000'));
   console.log('minted 100 OPTI tokens');
 };
 

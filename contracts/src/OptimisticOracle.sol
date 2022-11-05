@@ -19,9 +19,9 @@ contract OptimisticOracle is OOInterface {
 
     constructor(address _currency) {
         currency = IERC20(_currency);
-        BOND_AMOUNT = 10 ether;
-        DISPUTE_PERIOD = 86400; // 24H
-        VOTING_PERIOD = 172800; // 48H
+        BOND_AMOUNT = 10 ether; // 10 opti
+        DISPUTE_PERIOD = 600; // 10min
+        VOTING_PERIOD = 600; // 10min
     }
 
     function askQuestion(
@@ -29,6 +29,7 @@ contract OptimisticOracle is OOInterface {
         string memory resolutionSource,
         uint256 expiry
     ) external {
+        // don't allow duplicates?
         bytes32 questionId = getQuestionId(
             questionString,
             resolutionSource,
@@ -80,6 +81,8 @@ contract OptimisticOracle is OOInterface {
         Question storage question = questionById[questionId];
         question.stage = Stage.FINALIZED;
         question.result = proposal.answer;
+
+        currency.transfer(proposal.proposer, BOND_AMOUNT);
     }
 
     function disputeProposal(bytes32 questionId) external {
@@ -144,15 +147,31 @@ contract OptimisticOracle is OOInterface {
             "Voting period has not ended"
         );
 
+        Proposal memory proposal = proposalByQuestionId[questionId];
+        address disputer = disputerByQuestionId[questionId];
+
         Question storage question = questionById[questionId];
         if (vote.yesCount > vote.noCount && vote.yesCount > vote.invalidCount) {
             question.result = Result.YES;
+            if (proposal.answer == Result.YES) {
+                currency.transfer(proposal.proposer, BOND_AMOUNT * 2);
+            } else {
+                currency.transfer(disputer, BOND_AMOUNT * 2);
+            }
         } else if (
             vote.yesCount < vote.noCount && vote.noCount > vote.invalidCount
         ) {
             question.result = Result.NO;
+            if (proposal.answer == Result.NO) {
+                currency.transfer(proposal.proposer, BOND_AMOUNT * 2);
+            } else {
+                currency.transfer(disputer, BOND_AMOUNT * 2);
+            }
+        } else {
+            // INVALID: pay back proposer and disputer, 10 opti each
+            currency.transfer(proposal.proposer, BOND_AMOUNT);
+            currency.transfer(disputer, BOND_AMOUNT);
         }
-        // else: INVALID, which the is the default value
 
         question.stage = Stage.FINALIZED;
     }

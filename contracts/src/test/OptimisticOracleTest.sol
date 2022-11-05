@@ -57,9 +57,9 @@ contract OptimisticOracleTest is Test {
 
         // PROPOSE ANSWER
         cheats.warp(1000);
-        uint256 balance = opti.balanceOf(address(this));
+        uint256 initialBalance = opti.balanceOf(address(this));
         oo.proposeAnswer(questionId, Result.YES); // 1 is yes
-        assertEq(balance, opti.balanceOf(address(this)) + 10 ether); // 10 OPTI proposal bond
+        assertEq(initialBalance, opti.balanceOf(address(this)) + 10 ether); // 10 OPTI proposal bond
 
         Proposal memory proposal = oo.getProposalByQuestionId(questionId);
         assertEq(uint256(proposal.answer), uint256(Result.YES));
@@ -75,6 +75,10 @@ contract OptimisticOracleTest is Test {
         question = oo.getQuestionById(questionId);
 
         assertEq(uint256(questions[0].result), uint256(question.result));
+
+        uint256 endingBalance = opti.balanceOf(address(this));
+
+        assertEq(endingBalance, initialBalance);
     }
 
     function testQuestionSadPath() public {
@@ -94,18 +98,18 @@ contract OptimisticOracleTest is Test {
 
         // PROPOSE ANSWER
         cheats.warp(1000);
-        uint256 balance = opti.balanceOf(address(this));
+        uint256 initialBalance = opti.balanceOf(address(this));
         oo.proposeAnswer(questionId, Result.YES); // 1 is yes
-        assertEq(balance, opti.balanceOf(address(this)) + 10 ether); // 10 OPTI proposal bond
+        assertEq(initialBalance, opti.balanceOf(address(this)) + 10 ether); // 10 OPTI proposal bond
 
         Proposal memory proposal = oo.getProposalByQuestionId(questionId);
         assertEq(uint256(proposal.answer), uint256(Result.YES));
 
         // DISPUTE PROPOSAL
-        balance = opti.balanceOf(bob);
+        uint256 bobInitialBalance = opti.balanceOf(bob);
         cheats.prank(bob);
         oo.disputeProposal(questionId);
-        assertEq(balance, opti.balanceOf(bob) + 10 ether); // 10 OPTI dispute bond
+        assertEq(bobInitialBalance, opti.balanceOf(bob) + 10 ether); // 10 OPTI dispute bond
 
         // FINALIZATION FAILS
         cheats.warp(oo.DISPUTE_PERIOD() + 1001);
@@ -117,9 +121,9 @@ contract OptimisticOracleTest is Test {
         cheats.prank(alice);
         oo.makeVote(questionId, Result.YES);
         cheats.prank(bob);
-        oo.makeVote(questionId, Result.YES);
+        oo.makeVote(questionId, Result.NO);
         cheats.prank(john);
-        oo.makeVote(questionId, Result.YES);
+        oo.makeVote(questionId, Result.NO);
         cheats.prank(kyle);
         oo.makeVote(questionId, Result.NO);
 
@@ -128,7 +132,13 @@ contract OptimisticOracleTest is Test {
         oo.finalizeVote(questionId);
         question = oo.getQuestionById(questionId);
         assertEq(uint256(question.stage), uint256(Stage.FINALIZED));
-        assertEq(uint256(question.result), uint256(Result.YES));
+        assertEq(uint256(question.result), uint256(Result.NO));
+
+        uint256 bobEndingBalance = opti.balanceOf(bob);
+        assertEq(bobEndingBalance, bobInitialBalance + 10 ether);
+
+        uint256 endingBalance = opti.balanceOf(address(this));
+        assertEq(endingBalance, initialBalance - 10 ether);
     }
 }
 

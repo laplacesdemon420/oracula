@@ -644,8 +644,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/OptimisticOracle.sol": {
-      "lastModificationDate": 1667461023440,
-      "contentHash": "24f84ed520a1211e8c52a68ad17aa311",
+      "lastModificationDate": 1667640526389,
+      "contentHash": "226ea4796891418f62cfde4234689fcf",
       "sourceName": "src/OptimisticOracle.sol",
       "solcConfig": {
         "settings": {
@@ -760,7 +760,7 @@
       "artifacts": {}
     },
     "/Users/alexander/dev/opti/contracts/src/interfaces/OOInterface.sol": {
-      "lastModificationDate": 1664261675363,
+      "lastModificationDate": 1667640518013,
       "contentHash": "db3498c27c806a4fcf2ff6b216d45705",
       "sourceName": "src/interfaces/OOInterface.sol",
       "solcConfig": {
@@ -802,8 +802,8 @@
       }
     },
     "/Users/alexander/dev/opti/contracts/src/test/OptimisticOracleTest.sol": {
-      "lastModificationDate": 1667120211512,
-      "contentHash": "cc3c8db535e5838bdfcebdae012391b3",
+      "lastModificationDate": 1667637825718,
+      "contentHash": "0966195ef0f7eb35ac4e086b13c48adb",
       "sourceName": "src/test/OptimisticOracleTest.sol",
       "solcConfig": {
         "settings": {

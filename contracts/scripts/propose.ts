@@ -15,10 +15,10 @@ const main = async () => {
 
   const oo = ooFactory.attach(addresses.goerli.oo);
 
-  let tx = await oo.askQuestion(
-    'Will $ETH be over 0000 in 1 minute?',
+  let tx = await oo.proposeAnswer(
+    'Will $BTC be over 20000 in 10 minutes?',
     'https://coingecko.com',
-    1667638013 + 60
+    1667543195 + 600
   );
   await tx.wait();
   console.log('question asked: ', tx.hash);
