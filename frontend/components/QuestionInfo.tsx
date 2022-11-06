@@ -50,6 +50,7 @@ export default function QuestionInfo({
 
   const commitForm = useForm<{
     answer: 'yes' | 'no';
+    password: string;
   }>();
 
   const commitAnswer: SubmitHandler<{ answer: 'yes' | 'no' }> = async (
@@ -61,6 +62,8 @@ export default function QuestionInfo({
       console.log('Choose yes or no.');
       return;
     }
+
+    console.log(data);
 
     const result = data.answer === 'yes' ? 1 : 2;
 
@@ -106,6 +109,15 @@ export default function QuestionInfo({
     // await refetchQuestion();
     setProposalLoading(false);
   };
+
+  const { data: disputer } = useContractRead({
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
+    functionName: 'disputerByQuestionId',
+    args: [question?.questionId || ''],
+    enabled: !!question && !!question.questionId,
+    // select: (data: any) => ethers.utils.formatEther(data),
+  });
 
   const { data: balance } = useContractRead({
     address: addresses.goerli.token,
@@ -180,6 +192,8 @@ export default function QuestionInfo({
     }
     setFinalizationLoading(false);
   };
+
+  console.log(disputer);
 
   if (question?.stage === 0) {
     return (
@@ -279,9 +293,9 @@ export default function QuestionInfo({
         <p>
           To dispute, <strong>you post a bond of 10 Opti</strong>. This is done
           to incentivize good disputes. If your dispute is proven to be correct
-          in the vote, you'll get the 10 Opti back. If your dispute is proven to
-          be wrong, you'll lose it. Therefore, you need to hold opti tokens to
-          be able to vote.
+          in the vote, you&apos;ll get the 10 Opti back. If your dispute is
+          proven to be wrong, you&apos;ll lose it. Therefore, you need to hold
+          opti tokens to be able to vote.
         </p>
         <p>
           <strong>Opti balance:</strong> <span>{balance as string}</span>
@@ -311,8 +325,14 @@ export default function QuestionInfo({
   } else if (question?.stage === 2) {
     return (
       <div className="info">
-        <p className="headers">Proposal: Yes by 0xdeadbeef...1337</p>
-        <p className="headers">Disputed by 0xbadc0ffee...1338</p>
+        <p className="headers">Proposal: Yes</p>
+        <p className="headers">The proposal is disputed!</p>
+        <p>
+          If a proposal gets disputed, that means{' '}
+          <strong>we are entering a vote</strong>. In the first part of vote,
+          <strong> you commit your choice together with a password</strong>. In
+          the second part of the vote , <strong>you reveal your vote</strong>.
+        </p>
         <Timeline2>
           <Phase isActive={phase === 0}>
             {/* if now > expiry, should be possible to make a proposal */}
@@ -325,11 +345,11 @@ export default function QuestionInfo({
           </Phase>
         </Timeline2>
         <p>
-          To dispute, <strong>you post a bond of 10 Opti</strong>. This is done
-          to incentivize good disputes. If your dispute is proven to be correct
-          in the vote, you'll get the 10 Opti back. If your dispute is proven to
-          be wrong, you'll lose it. Therefore, you need to hold opti tokens to
-          be able to vote.
+          Choose your answer together with a password. The password will
+          essentially <strong>encrypt your vote</strong> so that no one else can
+          see what you voted on. In the reveal phase, you use your password to{' '}
+          <strong>decrypt your vote</strong>. Because of this,{' '}
+          <strong>you need to remember your password</strong>.
         </p>
         <ProposeForm
           onSubmit={commitForm.handleSubmit(commitAnswer)}
@@ -356,6 +376,11 @@ export default function QuestionInfo({
               />
               <span>No</span>
             </label>
+            <input
+              className="password"
+              placeholder="password"
+              {...commitForm.register('password', { required: true })}
+            />
             <button type="submit" className="propose-button" disabled={false}>
               {commitLoading ? 'committing...' : 'commit'}
             </button>
@@ -483,6 +508,12 @@ const ProposeForm = styled.form<{ isReady: boolean }>`
       transition: all 0.25s ease;
       transform: scale(1.025) perspective(1px);
     }
+  }
+  .password {
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 2px solid ${({ theme }) => theme.text.primary};
+    font-size: ${({ theme }) => theme.typeScale.paragraph};
   }
 `;
 
