@@ -5,21 +5,13 @@ import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/Optimisti
 import Token from '../../contracts/out/Token.sol/OPTI.json';
 import { addresses } from '../../contracts/addresses';
 import { useContractRead } from 'wagmi';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { timestampToDate } from '../utils';
-import { ethers } from 'ethers';
 import QuestionInfo from './QuestionInfo';
 
 export default function Question() {
   const { query } = useRouter();
 
-  console.log('qid:', query.id);
-
   // get actual question here
-  const {
-    data: question,
-    refetch: refetchQuestion,
-  }: { data: any; refetch: any } = useContractRead({
+  const { data: question }: { data: any; refetch: any } = useContractRead({
     address: addresses.goerli.oo,
     abi: OptimisticOracle.abi,
     functionName: 'getQuestionById',
@@ -46,10 +38,6 @@ export default function Question() {
     watch: true,
   });
 
-  console.log(question);
-  // console.log(proposal);
-  console.log(vote);
-
   // const stage: number = 2;
 
   return (
@@ -74,12 +62,7 @@ export default function Question() {
           {question?.stage === 3 ? <BsCheckCircleFill /> : null}
         </Stage>
       </Timeline>
-      <QuestionInfo
-        question={question}
-        refetchQuestion={refetchQuestion}
-        proposal={proposal}
-        vote={vote}
-      />
+      <QuestionInfo question={question} proposal={proposal} vote={vote} />
     </Container>
   );
 }
