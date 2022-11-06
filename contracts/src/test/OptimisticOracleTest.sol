@@ -6,7 +6,7 @@ import {ERC1155Holder} from "openzeppelin-contracts/contracts/token/ERC1155/util
 import {CheatCodes} from "./helpers/CheatCodes.sol";
 import {OPTI} from "./helpers/MockERC20.sol";
 import {OptimisticOracle} from "../OptimisticOracle.sol";
-import {Result, Stage, Proposal, Question} from "../datastructures/structures.sol";
+import {Result, Stage, Proposal, Question, Vote} from "../datastructures/structures.sol";
 
 contract OptimisticOracleTest is Test {
     OptimisticOracle internal oo;
@@ -117,15 +117,59 @@ contract OptimisticOracleTest is Test {
         oo.finalizeProposal(questionId);
         cheats.warp(1000);
 
-        // VOTING
+        // COMMIT VOTES
         cheats.prank(alice);
-        oo.makeVote(questionId, Result.YES);
+        oo.commitVote(
+            questionId,
+            keccak256(abi.encode(Result.YES, "alice-password"))
+        );
         cheats.prank(bob);
-        oo.makeVote(questionId, Result.NO);
+        oo.commitVote(
+            questionId,
+            keccak256(abi.encode(Result.NO, "bob-password"))
+        );
         cheats.prank(john);
-        oo.makeVote(questionId, Result.NO);
+        oo.commitVote(
+            questionId,
+            keccak256(abi.encode(Result.NO, "john-password"))
+        );
         cheats.prank(kyle);
-        oo.makeVote(questionId, Result.NO);
+        oo.commitVote(
+            questionId,
+            keccak256(abi.encode(Result.YES, "kyle-password"))
+        );
+        cheats.prank(kyle); // can change vote
+        oo.commitVote(
+            questionId,
+            keccak256(abi.encode(Result.NO, "kyle-password"))
+        );
+
+        Vote memory vote = oo.getVoteByQuestionId(questionId);
+        assertEq(vote.voteCount, 4);
+
+        // REVEAL VOTES
+        // test cannot reveal with wrong password
+        cheats.prank(alice);
+        cheats.expectRevert("Hashes don't match");
+        oo.revealVote(questionId, Result.YES, "alice-password-wrong");
+
+        cheats.prank(alice);
+        oo.revealVote(questionId, Result.YES, "alice-password");
+        cheats.prank(bob);
+        oo.revealVote(questionId, Result.NO, "bob-password");
+        // test cannot reveal twice
+        cheats.prank(bob);
+        cheats.expectRevert("Hashes don't match");
+        oo.revealVote(questionId, Result.NO, "bob-password");
+
+        cheats.prank(john);
+        oo.revealVote(questionId, Result.NO, "john-password");
+        cheats.prank(kyle);
+        oo.revealVote(questionId, Result.NO, "kyle-password");
+
+        vote = oo.getVoteByQuestionId(questionId);
+        assertEq(vote.yesCount, 1);
+        assertEq(vote.noCount, 3);
 
         // FINALIZE VOTE
         cheats.warp(oo.VOTING_PERIOD() + 1001);
@@ -140,6 +184,8 @@ contract OptimisticOracleTest is Test {
         uint256 endingBalance = opti.balanceOf(address(this));
         assertEq(endingBalance, initialBalance - 10 ether);
     }
+
+    function testCannotVoteTwice() public {}
 }
 
 contract TokenReceiver is ERC1155Holder {

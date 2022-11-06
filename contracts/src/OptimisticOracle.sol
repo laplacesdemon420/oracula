@@ -10,18 +10,23 @@ contract OptimisticOracle is OOInterface {
     mapping(bytes32 => Proposal) public proposalByQuestionId;
     mapping(bytes32 => address) public disputerByQuestionId;
     mapping(bytes32 => Vote) public voteByQuestionId;
+    mapping(bytes32 => mapping(address => bytes32)) public commit;
     bytes32[] public questionIds;
 
     IERC20 public currency;
     uint256 public BOND_AMOUNT;
     uint256 public DISPUTE_PERIOD;
     uint256 public VOTING_PERIOD;
+    uint256 public COMMIT_PHASE;
+    uint256 public REVEAL_PHASE;
 
     constructor(address _currency) {
         currency = IERC20(_currency);
         BOND_AMOUNT = 10 ether; // 10 opti
         DISPUTE_PERIOD = 600; // 10min
-        VOTING_PERIOD = 600; // 10min
+        VOTING_PERIOD = 1200; // 20min
+        COMMIT_PHASE = 600;
+        REVEAL_PHASE = 600;
     }
 
     function askQuestion(
@@ -115,35 +120,76 @@ contract OptimisticOracle is OOInterface {
     }
 
     function initializeVote(bytes32 questionId) internal {
-        Vote memory vote = Vote(0, 0, 0, block.timestamp + VOTING_PERIOD);
+        Vote memory vote = Vote(
+            0,
+            0,
+            0,
+            0,
+            block.timestamp + COMMIT_PHASE,
+            block.timestamp + REVEAL_PHASE
+        );
         voteByQuestionId[questionId] = vote;
     }
 
-    function makeVote(bytes32 questionId, Result answer) external {
+    function commitVote(bytes32 questionId, bytes32 commitHash) external {
+        // commit = keccak256(abi.encode(vote, password))
+        // generate unique hash, distribute to the public
         Vote storage vote = voteByQuestionId[questionId];
+        // 1. verify that we are in the commit period
         require(
-            vote.endTimestamp != 0,
-            "There is no ongoing vote for this question."
+            vote.commitEndTimestamp > 0 &&
+                vote.commitEndTimestamp > block.timestamp,
+            "Not in a commit phase"
         );
-        require(block.timestamp < vote.endTimestamp, "Voting period has ended");
 
-        if (answer == Result.INVALID) {
+        if (commit[questionId][msg.sender] == bytes32(0)) {
+            vote.voteCount++;
+        }
+
+        commit[questionId][msg.sender] = commitHash;
+    }
+
+    function revealVote(
+        bytes32 questionId,
+        Result _vote,
+        string memory password
+    ) external {
+        // distribute vote to the public, verify that vote and hash match up
+        // 1. verify that we are in the reveal period
+        Vote storage vote = voteByQuestionId[questionId];
+
+        require(
+            vote.revealEndTimestamp > 0 &&
+                vote.revealEndTimestamp > block.timestamp,
+            "Not in a reveal phase"
+        );
+
+        bytes32 commitHash = commit[questionId][msg.sender];
+
+        require(
+            keccak256(abi.encode(_vote, password)) == commitHash,
+            "Hashes don't match"
+        );
+
+        if (_vote == Result.INVALID) {
             vote.invalidCount += 1;
-        } else if (answer == Result.YES) {
+        } else if (_vote == Result.YES) {
             vote.yesCount += 1;
         } else {
             vote.noCount += 1;
         }
+
+        commit[questionId][msg.sender] = bytes32(0); // prevents double counting
     }
 
     function finalizeVote(bytes32 questionId) external {
         Vote memory vote = voteByQuestionId[questionId];
         require(
-            vote.endTimestamp != 0,
+            vote.revealEndTimestamp != 0,
             "There is no ongoing vote for this question."
         );
         require(
-            block.timestamp > vote.endTimestamp,
+            block.timestamp > vote.revealEndTimestamp,
             "Voting period has not ended"
         );
 
@@ -190,6 +236,14 @@ contract OptimisticOracle is OOInterface {
         returns (Proposal memory)
     {
         return proposalByQuestionId[questionId];
+    }
+
+    function getVoteByQuestionId(bytes32 questionId)
+        external
+        view
+        returns (Vote memory)
+    {
+        return voteByQuestionId[questionId];
     }
 
     function getQuestionId(

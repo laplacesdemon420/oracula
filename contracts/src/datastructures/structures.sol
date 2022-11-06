@@ -24,7 +24,9 @@ struct Vote {
     uint256 invalidCount;
     uint256 yesCount;
     uint256 noCount;
-    uint256 endTimestamp;
+    uint256 voteCount;
+    uint256 commitEndTimestamp;
+    uint256 revealEndTimestamp;
 }
 
 struct Question {

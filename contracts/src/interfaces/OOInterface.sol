@@ -16,7 +16,13 @@ interface OOInterface {
 
     function disputeProposal(bytes32 questionId) external;
 
-    function makeVote(bytes32 questionId, Result answer) external;
+    function commitVote(bytes32 questionId, bytes32 commitHash) external;
+
+    function revealVote(
+        bytes32 questionId,
+        Result _vote,
+        string memory password
+    ) external;
 
     function finalizeVote(bytes32 questionId) external;
 }
