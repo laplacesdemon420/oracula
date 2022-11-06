@@ -43,11 +43,12 @@ export default function Question() {
     functionName: 'voteByQuestionId',
     args: ['0x' + query.id],
     enabled: !!query.id,
+    watch: true,
   });
 
   console.log(question);
-  console.log(proposal);
-  // console.log(vote);
+  // console.log(proposal);
+  console.log(vote);
 
   // const stage: number = 2;
 

@@ -32,6 +32,7 @@ export default function QuestionInfo({
 }) {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [proposalLoading, setProposalLoading] = useState(false);
+  const [commitLoading, setCommitLoading] = useState(false);
   const [finalizationLoading, setFinalizationLoading] = useState(false);
   const { address } = useAccount();
   const { data: signer } = useSigner();
@@ -47,21 +48,50 @@ export default function QuestionInfo({
     signerOrProvider: signer,
   });
 
-  const { register, handleSubmit } = useForm<{
+  const commitForm = useForm<{
     answer: 'yes' | 'no';
   }>();
+
+  const commitAnswer: SubmitHandler<{ answer: 'yes' | 'no' }> = async (
+    data
+  ) => {
+    if (!oracleContract) return;
+
+    if (!data.answer) {
+      console.log('Choose yes or no.');
+      return;
+    }
+
+    const result = data.answer === 'yes' ? 1 : 2;
+
+    setCommitLoading(true);
+    try {
+      let commit = await oracleContract.makeVote(question.questionId, result);
+      await commit.wait();
+      console.log(commit.hash);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setCommitLoading(false);
+  };
+
+  const proposeForm = useForm<{
+    answer: 'yes' | 'no';
+  }>();
+
   const proposeAnswer: SubmitHandler<{ answer: 'yes' | 'no' }> = async (
     data
   ) => {
     if (!oracleContract) return;
 
-    console.log(data);
+    if (!data.answer) {
+      console.log('Choose yes or no.');
+      return;
+    }
+
     const result = data.answer === 'yes' ? 1 : 2;
-    console.log('qid:', question.questionId);
-    console.log('r:', result);
-    // propose
-    // refetch question
-    // refetch proposal
+
     setProposalLoading(true);
     try {
       let proposal = await oracleContract.proposeAnswer(
@@ -137,6 +167,20 @@ export default function QuestionInfo({
     setFinalizationLoading(false);
   };
 
+  const dispute = async () => {
+    if (!oracleContract) return;
+
+    setFinalizationLoading(true);
+    try {
+      let dispute = await oracleContract.disputeProposal(question.questionId);
+      await dispute.wait();
+      console.log(dispute.hash);
+    } catch (e) {
+      console.log(e);
+    }
+    setFinalizationLoading(false);
+  };
+
   if (question?.stage === 0) {
     return (
       <div className="info">
@@ -172,7 +216,7 @@ export default function QuestionInfo({
           </ApproveDiv>
         )}
         <ProposeForm
-          onSubmit={handleSubmit(proposeAnswer)}
+          onSubmit={proposeForm.handleSubmit(proposeAnswer)}
           isReady={readyToPropose && isApproved === true}
         >
           <p className="propose-header">{question?.questionString}</p>
@@ -180,17 +224,16 @@ export default function QuestionInfo({
           <div>
             <label htmlFor="yes">
               <input
-                {...register('answer')}
+                {...proposeForm.register('answer')}
                 type="radio"
                 value="yes"
                 id="field-yes"
-                checked
               />
               <span>Yes</span>
             </label>
             <label htmlFor="no">
               <input
-                {...register('answer')}
+                {...proposeForm.register('answer')}
                 type="radio"
                 value="no"
                 id="field-no"
@@ -232,10 +275,34 @@ export default function QuestionInfo({
           by {proposal?.proposer}
         </p>
         <p className="headers">Time to Finality: {ttf}s</p>
+        <p className="headers">Dispute proposal:</p>
+        <p>
+          To dispute, <strong>you post a bond of 10 Opti</strong>. This is done
+          to incentivize good disputes. If your dispute is proven to be correct
+          in the vote, you'll get the 10 Opti back. If your dispute is proven to
+          be wrong, you'll lose it. Therefore, you need to hold opti tokens to
+          be able to vote.
+        </p>
+        <p>
+          <strong>Opti balance:</strong> <span>{balance as string}</span>
+        </p>
+        {isApproved === false && (
+          <ApproveDiv>
+            {approvalLoading ? (
+              <button className="approve-button" onClick={approve}>
+                Loading...
+              </button>
+            ) : (
+              <button className="approve-button" onClick={approve}>
+                Approve
+              </button>
+            )}
+          </ApproveDiv>
+        )}
         {finalizationLoading ? (
           <Button>Loading...</Button>
         ) : ttf > 0 ? (
-          <Button>DISPUTE</Button>
+          <Button onClick={dispute}>DISPUTE</Button>
         ) : (
           <Button onClick={finalize}>FINALIZE</Button>
         )}
@@ -257,6 +324,43 @@ export default function QuestionInfo({
             {phase === 1 ? <BsCheckCircleFill /> : null}
           </Phase>
         </Timeline2>
+        <p>
+          To dispute, <strong>you post a bond of 10 Opti</strong>. This is done
+          to incentivize good disputes. If your dispute is proven to be correct
+          in the vote, you'll get the 10 Opti back. If your dispute is proven to
+          be wrong, you'll lose it. Therefore, you need to hold opti tokens to
+          be able to vote.
+        </p>
+        <ProposeForm
+          onSubmit={commitForm.handleSubmit(commitAnswer)}
+          isReady={true}
+        >
+          <p className="propose-header">{question?.questionString}</p>
+
+          <div>
+            <label htmlFor="yes">
+              <input
+                {...commitForm.register('answer')}
+                type="radio"
+                value="yes"
+                id="field-yes"
+              />
+              <span>Yes</span>
+            </label>
+            <label htmlFor="no">
+              <input
+                {...commitForm.register('answer')}
+                type="radio"
+                value="no"
+                id="field-no"
+              />
+              <span>No</span>
+            </label>
+            <button type="submit" className="propose-button" disabled={false}>
+              {commitLoading ? 'committing...' : 'commit'}
+            </button>
+          </div>
+        </ProposeForm>
       </div>
     );
   } else if (question?.stage === 3) {
