@@ -16,7 +16,7 @@ const main = async () => {
   const oo = ooFactory.attach(addresses.goerli.oo);
 
   let tx = await oo.askQuestion(
-    'Will $ETH be over 0100 in 1 minute?',
+    'was $eth over 2000 on 2022-01-01?',
     'https://coingecko.com',
     1667638013 + 60
   );

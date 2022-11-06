@@ -25,8 +25,8 @@ contract OptimisticOracle is OOInterface {
         BOND_AMOUNT = 10 ether; // 10 opti
         DISPUTE_PERIOD = 600; // 10min
         VOTING_PERIOD = 1200; // 20min
-        COMMIT_PHASE = 600;
-        REVEAL_PHASE = 600;
+        COMMIT_PHASE = 120;
+        REVEAL_PHASE = 120;
     }
 
     function askQuestion(
@@ -126,7 +126,7 @@ contract OptimisticOracle is OOInterface {
             0,
             0,
             block.timestamp + COMMIT_PHASE,
-            block.timestamp + REVEAL_PHASE
+            block.timestamp + REVEAL_PHASE * 2
         );
         voteByQuestionId[questionId] = vote;
     }

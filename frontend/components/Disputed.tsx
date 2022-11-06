@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BsCheckCircleFill } from 'react-icons/bs';
+import { BsArrowRightCircleFill } from 'react-icons/bs';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
 import { addresses } from '../../contracts/addresses';
@@ -8,6 +9,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { timestampToDate } from '../utils';
 import { ethers } from 'ethers';
 import { useState } from 'react';
+
+const ZERO_HASH =
+  '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export default function Disputed({
   question,
@@ -19,6 +23,9 @@ export default function Disputed({
   vote: any;
 }) {
   const [commitLoading, setCommitLoading] = useState(false);
+  const [revealLoading, setRevealLoading] = useState(false);
+  const [finalizationLoading, setFinalizationLoading] = useState(false);
+  const { address } = useAccount();
   const { data: signer } = useSigner();
 
   const oracleContract = useContract({
@@ -32,9 +39,49 @@ export default function Disputed({
     password: string;
   }>();
 
-  const commitAnswer: SubmitHandler<{ answer: 'yes' | 'no' }> = async (
-    data
-  ) => {
+  const commitAnswer: SubmitHandler<{
+    answer: 'yes' | 'no';
+    password: string;
+  }> = async (data) => {
+    if (!oracleContract) return;
+
+    if (!data.answer) {
+      console.log('Choose yes or no.');
+      return;
+    }
+
+    console.log(data);
+
+    const result = data.answer === 'yes' ? 1 : 2;
+    const hash = ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ['uint256', 'string'],
+        [result, data.password]
+      )
+    );
+    console.log(hash);
+
+    setCommitLoading(true);
+    try {
+      let commit = await oracleContract.commitVote(question.questionId, hash);
+      await commit.wait();
+      console.log(commit.hash);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setCommitLoading(false);
+  };
+
+  const revealForm = useForm<{
+    answer: 'yes' | 'no';
+    password: string;
+  }>();
+
+  const revealAnswer: SubmitHandler<{
+    answer: 'yes' | 'no';
+    password: string;
+  }> = async (data) => {
     if (!oracleContract) return;
 
     if (!data.answer) {
@@ -46,23 +93,62 @@ export default function Disputed({
 
     const result = data.answer === 'yes' ? 1 : 2;
 
-    setCommitLoading(true);
+    setRevealLoading(true);
     try {
-      let commit = await oracleContract.makeVote(question.questionId, result);
-      await commit.wait();
-      console.log(commit.hash);
+      let reveal = await oracleContract.revealVote(
+        question.questionId,
+        result,
+        data.password
+      );
+      await reveal.wait();
+      console.log(reveal.hash);
     } catch (e) {
       console.log(e);
     }
 
-    setCommitLoading(false);
+    setRevealLoading(false);
   };
 
-  console.log('1:', proposal?.timestamp.toString());
-  console.log('2:', Math.floor(new Date().getTime() / 1000));
+  const { data: commitHash } = useContractRead({
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
+    functionName: 'commit',
+    args: [question.questionId, address],
+    enabled: !!question.questionId && !!address,
+    watch: true,
+  });
+
+  const finalizeVote = async () => {
+    if (!oracleContract) return;
+
+    setFinalizationLoading(true);
+    try {
+      let finalization = await oracleContract.finalizeVote(question.questionId);
+      await finalization.wait();
+      console.log(finalization.hash);
+    } catch (e) {
+      console.log(e);
+    }
+    setFinalizationLoading(false);
+  };
+
+  const getOutcome = (vote: any) => {
+    if (!vote) return '';
+
+    if (vote.yesCount.gt(vote.noCount)) {
+      return 'YES';
+    } else if (vote.yesCount.lt(vote.noCount)) {
+      return 'NO';
+    }
+
+    return 'INVALID';
+  };
+
   const now = ethers.BigNumber.from(Math.floor(new Date().getTime() / 1000));
   const commitEnd = vote?.commitEndTimestamp;
   const revealEnd = vote?.revealEndTimestamp;
+
+  console.log();
 
   const phase = now.lt(commitEnd)
     ? 'commit'
@@ -102,7 +188,7 @@ export default function Disputed({
           {phase === 'finalize' && <BsCheckCircleFill />}
         </Phase>
       </Timeline2>
-      {phase === 'finalize' ? (
+      {phase === 'commit' ? (
         <>
           <p>
             Choose your answer together with a password. The password will
@@ -115,53 +201,70 @@ export default function Disputed({
             Reveal phase starts in: {revealIn.toString()}
           </p>
           <p className="headers">Total votes: {vote?.voteCount.toString()}</p>
-          <ProposeForm
-            onSubmit={commitForm.handleSubmit(commitAnswer)}
-            isReady={true}
-          >
-            <p className="propose-header">{question?.questionString}</p>
+          {commitHash === ZERO_HASH ? (
+            <ProposeForm
+              onSubmit={commitForm.handleSubmit(commitAnswer)}
+              isReady={true}
+            >
+              <p className="propose-header">{question?.questionString}</p>
 
-            <div>
-              <label htmlFor="yes">
+              <div>
+                <label htmlFor="yes">
+                  <input
+                    {...commitForm.register('answer')}
+                    type="radio"
+                    value="yes"
+                    id="field-yes"
+                  />
+                  <span>Yes</span>
+                </label>
+                <label htmlFor="no">
+                  <input
+                    {...commitForm.register('answer')}
+                    type="radio"
+                    value="no"
+                    id="field-no"
+                  />
+                  <span>No</span>
+                </label>
                 <input
-                  {...commitForm.register('answer')}
-                  type="radio"
-                  value="yes"
-                  id="field-yes"
+                  className="password"
+                  placeholder="password"
+                  {...commitForm.register('password', { required: true })}
                 />
-                <span>Yes</span>
-              </label>
-              <label htmlFor="no">
-                <input
-                  {...commitForm.register('answer')}
-                  type="radio"
-                  value="no"
-                  id="field-no"
-                />
-                <span>No</span>
-              </label>
-              <input
-                className="password"
-                placeholder="password"
-                {...commitForm.register('password', { required: true })}
-              />
-              <button type="submit" className="propose-button" disabled={false}>
-                {commitLoading ? 'committing...' : 'commit'}
-              </button>
-            </div>
-          </ProposeForm>
+                <button
+                  type="submit"
+                  className="propose-button"
+                  disabled={false}
+                >
+                  {commitLoading ? 'committing...' : 'commit'}
+                </button>
+              </div>
+            </ProposeForm>
+          ) : (
+            <p className="headers">
+              Your vote is committed! Now just wait for the reveal phase.
+            </p>
+          )}
         </>
       ) : phase === 'reveal' ? (
         <>
           <p>
-            Choose your answer together with a password. The password will
-            essentially <strong>encrypt your vote</strong> so that no one else
-            can see what you voted on. In the reveal phase, you use your
-            password to <strong>decrypt your vote</strong>. Because of this,{' '}
-            <strong>you need to remember your password</strong>.
+            Now it&apos;s time to <strong>decrypt and reveal your vote</strong>{' '}
+            so that the smart contract can see what you voted on. Choose the
+            same Yes or No value as you did in the commit phase, and{' '}
+            <strong>the exact same password</strong>. Then click reveal.
           </p>
+          <p className="headers">
+            Reveal phase ends in: {finalizeIn.toString()}
+          </p>
+          <VotesDiv>
+            <p className="headers">Yes votes: {vote?.yesCount.toString()}</p>
+            <p className="headers">No votes: {vote?.noCount.toString()}</p>
+          </VotesDiv>
+
           <ProposeForm
-            onSubmit={commitForm.handleSubmit(commitAnswer)}
+            onSubmit={revealForm.handleSubmit(revealAnswer)}
             isReady={true}
           >
             <p className="propose-header">{question?.questionString}</p>
@@ -169,7 +272,7 @@ export default function Disputed({
             <div>
               <label htmlFor="yes">
                 <input
-                  {...commitForm.register('answer')}
+                  {...revealForm.register('answer')}
                   type="radio"
                   value="yes"
                   id="field-yes"
@@ -178,7 +281,7 @@ export default function Disputed({
               </label>
               <label htmlFor="no">
                 <input
-                  {...commitForm.register('answer')}
+                  {...revealForm.register('answer')}
                   type="radio"
                   value="no"
                   id="field-no"
@@ -188,16 +291,34 @@ export default function Disputed({
               <input
                 className="password"
                 placeholder="password"
-                {...commitForm.register('password', { required: true })}
+                {...revealForm.register('password', { required: true })}
               />
               <button type="submit" className="propose-button" disabled={false}>
-                {commitLoading ? 'committing...' : 'commit'}
+                {revealLoading ? 'revealing...' : 'reveal'}
               </button>
             </div>
           </ProposeForm>
         </>
       ) : (
-        <p>ayo</p>
+        <>
+          <p>
+            Now it&apos;s time to <strong>finalize the vote</strong> so that the
+            smart contract can see what you voted on. Choose the same Yes or No
+            value as you did in the commit phase, and{' '}
+            <strong>the exact same password</strong>. Then click reveal.
+          </p>
+          <VotesDiv>
+            <p className="headers">Yes votes: {vote?.yesCount.toString()}</p>
+            <p className="headers">No votes: {vote?.noCount.toString()}</p>
+            <BsArrowRightCircleFill />
+            <p className="headers"> {getOutcome(vote)}</p>
+          </VotesDiv>
+          {finalizationLoading ? (
+            <Button>Finalizing...</Button>
+          ) : (
+            <Button onClick={finalizeVote}>Finalize</Button>
+          )}
+        </>
       )}
     </div>
   );
@@ -248,6 +369,17 @@ const Timeline2 = styled.div`
   border: 3px solid ${({ theme }) => theme.text.primary};
   display: grid;
   grid-template-columns: repeat(2, 1fr); ;
+`;
+
+const VotesDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  svg {
+    height: 25px;
+    width: 25px;
+  }
 `;
 
 const Button = styled.button`
