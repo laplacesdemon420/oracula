@@ -17,6 +17,8 @@ export type Theme = {
     tertiary: string;
     quaternary: string;
     senary: string;
+    input: string;
+    border: string;
   };
   typeScale: object;
   font: object;

@@ -6,7 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  darkTheme,
+  darkTheme as darkThemeRainbowKit,
   Chain,
 } from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
@@ -14,7 +14,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from 'styled-components';
 import Layout from '../components/Layout';
-import { lightTheme, GlobalStyle } from '../design/themes';
+import { lightTheme, darkTheme, GlobalStyle } from '../design/themes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
@@ -91,7 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
-          theme={darkTheme({
+          theme={darkThemeRainbowKit({
             accentColor: lightTheme.colors.primary,
             accentColorForeground: 'white',
             borderRadius: 'small',

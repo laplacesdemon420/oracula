@@ -26,67 +26,8 @@ const TableContainer = styled.div`
   gap: 1.5rem;
 `;
 
-const OutcomeDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 2px solid ${({ theme }) => theme.text.primary};
-  border-radius: 10px;
-  padding: 0.5rem;
-
-  .upper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: ${({ theme }) => theme.typeScale.header6};
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid ${({ theme }) => theme.text.primary};
-    font-weight: 500;
-    svg {
-      color: ${({ theme }) => theme.colors.green};
-    }
-  }
-  .lower {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: ${({ theme }) => theme.typeScale.header6};
-    font-weight: 500;
-    padding-top: 0.5rem;
-    svg {
-      color: ${({ theme }) => theme.colors.red};
-    }
-  }
-`;
-
-const StyledQuestion = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  label {
-    font-size: ${({ theme }) => theme.typeScale.smallParagraph};
-    font-weight: 800;
-  }
-
-  .resolution-source {
-    padding: 9px;
-    border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
-  }
-
-  .resolution-date {
-    padding: 8px;
-    border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
-  }
-`;
-
-const Resolution = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-`;
-
 const Container = styled.div`
+  color: ${({ theme }) => theme.text.primary};
   min-height: calc(100vh - 62px);
   display: flex;
   flex-direction: column;

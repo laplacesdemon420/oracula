@@ -172,6 +172,8 @@ const Inner = styled.div`
 `;
 
 const Container = styled.div`
+  color: ${({ theme }) => theme.text.primary};
+
   min-height: calc(100vh - 62px);
   display: flex;
   flex-direction: column;

@@ -334,11 +334,12 @@ const StyledTable = styled.table`
 
   thead {
     tr {
-      border-radius: 10px 10px 0 0;
+      /* border-radius: 10px 10px 0 0; */
       outline: thin solid ${({ theme }) => theme.background.tertiary};
       background-color: ${({ theme }) => theme.background.secondary};
     }
     th {
+      /* border-radius: 10px; */
       text-align: left;
       padding: 1rem;
 
@@ -378,6 +379,12 @@ const Container = styled.div`
   /* align-items: center; */
   /* border: 1px solid ${({ theme }) => theme.text.primary}; */
   margin-bottom: 2rem;
+
+  input {
+    background: ${({ theme }) => theme.background.input};
+    border: 2px solid ${({ theme }) => theme.background.input};
+    color: ${({ theme }) => theme.text.primary};
+  }
 `;
 
 function DebouncedInput({

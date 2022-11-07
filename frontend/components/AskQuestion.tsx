@@ -130,7 +130,7 @@ export default function AskQuestion() {
 const OutcomeDiv = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid ${({ theme }) => theme.text.primary};
+  border: 2px solid ${({ theme }) => theme.background.border};
   border-radius: 10px;
   padding: 0.5rem;
 
@@ -140,7 +140,7 @@ const OutcomeDiv = styled.div`
     gap: 0.5rem;
     font-size: ${({ theme }) => theme.typeScale.header6};
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid ${({ theme }) => theme.text.primary};
+    border-bottom: 2px solid ${({ theme }) => theme.background.border};
     font-weight: 500;
     svg {
       color: ${({ theme }) => theme.colors.green};
@@ -171,13 +171,11 @@ const StyledQuestion = styled.div`
   .resolution-source {
     padding: 9px;
     border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
   }
 
   .resolution-date {
     padding: 8px;
     border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
   }
 `;
 
@@ -203,6 +201,12 @@ const Ask = styled.div`
     font-size: 1.5rem;
   }
 
+  input {
+    background: ${({ theme }) => theme.background.input};
+    border: 2px solid ${({ theme }) => theme.background.border};
+    color: ${({ theme }) => theme.text.primary};
+  }
+
   @media screen and (max-width: 700px) {
     width: 80%;
   }
@@ -218,7 +222,7 @@ const StyledForm = styled.form`
   .question {
     padding: 0.75rem;
     border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.text.primary};
+    /* border: 2px solid ${({ theme }) => theme.text.primary}; */
     font-size: ${({ theme }) => theme.typeScale.paragraph};
   }
 

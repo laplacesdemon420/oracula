@@ -193,7 +193,7 @@ const StyledTable = styled.table`
 
   thead {
     tr {
-      border-radius: 10px 10px 0 0;
+      /* border-radius: 10px 10px 0 0; */
       outline: thin solid ${({ theme }) => theme.background.tertiary};
       background-color: ${({ theme }) => theme.background.secondary};
     }

@@ -23,6 +23,7 @@ const Disputes: NextPage = () => {
 };
 
 const TableContainer = styled.div`
+  color: ${({ theme }) => theme.text.primary};
   width: 90%;
   /* border: 1px solid ${({ theme }) => theme.background.tertiary}; */
   border-radius: 10px 10px 0 0;
@@ -31,6 +32,11 @@ const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  input {
+    background: ${({ theme }) => theme.background.input};
+    border: 2px solid ${({ theme }) => theme.background.input};
+    color: ${({ theme }) => theme.text.primary};
+  }
 `;
 
 const Container = styled.div`

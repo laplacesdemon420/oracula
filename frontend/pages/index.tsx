@@ -82,7 +82,9 @@ const Home: NextPage = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  color: ${({ theme }) => theme.text.primary};
+`;
 
 const TopContainer = styled.div`
   padding: 3rem 4rem;

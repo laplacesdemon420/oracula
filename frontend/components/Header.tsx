@@ -53,7 +53,8 @@ const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   align-items: flex-end;
   background-color: ${({ theme }) => theme.background.primary};
-  border-bottom: 1px solid ${({ theme }) => theme.background.secondary};
+  /* border-bottom: 1px solid ${({ theme }) => theme.background.secondary}; */
+  color: ${({ theme }) => theme.text.primary};
 `;
 
 const LogoContainer = styled.div`
