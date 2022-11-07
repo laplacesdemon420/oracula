@@ -4,10 +4,69 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import { addresses } from '../../contracts/addresses';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
+import Token from '../../contracts/out/Token.sol/OPTI.json';
 import Table from '../components/QuestionsTable';
+import { timestampToDate } from '../utils';
+import { useAccount, useContract, useContractRead } from 'wagmi';
+import { useEffect, useState } from 'react';
+
+type Stats = {
+  qCount: number;
+  pCount: number;
+  dCount: number;
+  fCount: number;
+};
 
 export default function Dashboard() {
+  const [stats, setStats] = useState<Stats>();
+  const [activeBalance, setActiveBalance] = useState(0);
+
+  const { address } = useAccount();
+
+  const { data: balance } = useContractRead({
+    address: addresses.goerli.token,
+    abi: Token.abi,
+    functionName: 'balanceOf',
+    args: [address],
+    enabled: !!address,
+    select: (data: any) => ethers.utils.formatEther(data),
+  });
+
   // get all questions
+  const { data }: { data: Stats | any } = useContractRead({
+    address: addresses.goerli.oo,
+    abi: OptimisticOracle.abi,
+    functionName: 'getAllQuestions',
+    select: (data: any) => {
+      let [qCount, pCount, dCount, fCount] = [data.length, 0, 0, 0];
+      for (const q of data) {
+        if (q.stage === 1) {
+          pCount++;
+        } else if (q.stage === 2) {
+          dCount++;
+        } else if (q.stage === 3) {
+          fCount++;
+        }
+      }
+      return {
+        qCount,
+        pCount,
+        dCount,
+        fCount,
+      };
+    },
+    watch: true,
+  });
+
+  useEffect(() => {
+    setStats(data as Stats);
+  }, [data]);
+
+  useEffect(() => {
+    setActiveBalance(balance as number);
+  }, [balance]);
+
+  console.log(balance);
 
   return (
     <Container>
@@ -21,24 +80,26 @@ export default function Dashboard() {
             />
           </div>
           <div>
-            <p>Balance: 105.3 $OPTI, Active Balance: 10 $OPTI</p>
+            <p>
+              <strong>Opti balance:</strong> <span>{activeBalance}</span>
+            </p>
           </div>
         </AccountInfo>
         <AppInfo>
           <div>
-            <p className="header">41</p>
+            <p className="header">{stats?.qCount}</p>
             <p className="description">Open Questions</p>
           </div>
           <div>
-            <p className="header">22</p>
+            <p className="header">{stats?.pCount}</p>
             <p className="description">Proposals</p>
           </div>
           <div>
-            <p className="header">5</p>
+            <p className="header">{stats?.dCount}</p>
             <p className="description">Disputes</p>
           </div>
           <div>
-            <p className="header">67</p>
+            <p className="header">{stats?.fCount}</p>
             <p className="description">Finalized</p>
           </div>
         </AppInfo>
@@ -64,7 +125,7 @@ const TableContainer = styled.div`
 
 const AccountInfo = styled.div`
   display: grid;
-  grid-template-columns: 258px 1fr;
+  grid-template-columns: 265px 1fr; // 258px
   gap: 1rem;
   div {
     padding: 1rem;

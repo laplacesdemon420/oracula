@@ -61,7 +61,7 @@ export default function DisputesTable() {
     functionName: 'getAllQuestions',
     select: (data: any) => {
       return data
-        .filter((q: any) => q.stage === 0)
+        .filter((q: any) => q.stage === 2)
         .map((q: any) => {
           return {
             questionString: q.questionString,

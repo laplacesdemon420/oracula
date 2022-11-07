@@ -206,7 +206,7 @@ export default function Table() {
   });
 
   const table = useReactTable({
-    data,
+    data: data.length > 0 ? data : [],
     columns,
     state: {
       columnVisibility,

@@ -27,14 +27,15 @@ export default function Asked({ question }: { question: any }) {
     signerOrProvider: signer,
   });
 
-  const { data: balance } = useContractRead({
-    address: addresses.goerli.token,
-    abi: Token.abi,
-    functionName: 'balanceOf',
-    args: [address],
-    enabled: !!address,
-    select: (data: any) => ethers.utils.formatEther(data),
-  });
+  const { data: balance, isLoading }: { data: any; isLoading: boolean } =
+    useContractRead({
+      address: addresses.goerli.token,
+      abi: Token.abi,
+      functionName: 'balanceOf',
+      args: [address],
+      enabled: !!address,
+      select: (data: any) => ethers.utils.formatEther(data),
+    });
 
   const { data: isApproved } = useContractRead({
     address: addresses.goerli.token,
@@ -116,7 +117,7 @@ export default function Asked({ question }: { question: any }) {
         hold opti tokens to be able to vote.
       </p>
       <p>
-        <strong>Opti balance:</strong> <span>{balance as string}</span>
+        <strong>Opti balance:</strong> <span>{!isLoading && balance}</span>
       </p>
       {isApproved === false && (
         <ApproveDiv>
