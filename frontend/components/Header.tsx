@@ -18,7 +18,7 @@ export default function Header() {
     <Container>
       <LogoContainer>
         <Link href="/">
-          <a>opti.xyz</a>
+          <a>schelling</a>
         </Link>
       </LogoContainer>
       <MenuContainer>

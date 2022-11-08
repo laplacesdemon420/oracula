@@ -3,16 +3,18 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
-import { addresses } from '../../contracts/addresses';
-import { useContractRead } from 'wagmi';
+import { addresses } from '../utils';
+import { useContractRead, useNetwork } from 'wagmi';
 import QuestionInfo from './QuestionInfo';
 
 export default function Question() {
   const { query } = useRouter();
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   // get actual question here
   const { data: question }: { data: any; refetch: any } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getQuestionById',
     args: ['0x' + query.id],
@@ -21,7 +23,7 @@ export default function Question() {
   });
 
   const { data: proposal } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getProposalByQuestionId',
     args: ['0x' + query.id],
@@ -30,7 +32,7 @@ export default function Question() {
   });
 
   const { data: vote } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'voteByQuestionId',
     args: ['0x' + query.id],

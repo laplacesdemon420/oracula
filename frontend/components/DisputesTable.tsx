@@ -12,9 +12,9 @@ import { rankItem } from '@tanstack/match-sorter-utils';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { DisputeType, QuestionType } from '../types';
 import { mockDisputes } from '../data/disputes';
-import { useContractRead } from 'wagmi';
+import { useContractRead, useNetwork } from 'wagmi';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import { addresses } from '../../contracts/addresses';
+import { addresses } from '../utils';
 
 const columnHelper = createColumnHelper<DisputeType>();
 
@@ -54,9 +54,11 @@ export default function DisputesTable() {
   const [data, setData] = useState<DisputeType[]>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState('');
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   const { data: questions } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {

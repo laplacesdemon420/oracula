@@ -3,8 +3,14 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 import { BsArrowRightCircleFill } from 'react-icons/bs';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
-import { addresses } from '../../contracts/addresses';
-import { useAccount, useContract, useContractRead, useSigner } from 'wagmi';
+import { addresses } from '../utils';
+import {
+  useAccount,
+  useContract,
+  useContractRead,
+  useNetwork,
+  useSigner,
+} from 'wagmi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { timestampToDate } from '../utils';
 import { ethers } from 'ethers';
@@ -27,9 +33,11 @@ export default function Disputed({
   const [finalizationLoading, setFinalizationLoading] = useState(false);
   const { address } = useAccount();
   const { data: signer } = useSigner();
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   const oracleContract = useContract({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
@@ -110,7 +118,7 @@ export default function Disputed({
   };
 
   const { data: commitHash } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'commit',
     args: [question.questionId, address],

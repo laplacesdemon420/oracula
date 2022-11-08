@@ -2,8 +2,14 @@ import styled from 'styled-components';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
-import { addresses } from '../../contracts/addresses';
-import { useAccount, useContract, useContractRead, useSigner } from 'wagmi';
+import { addresses } from '../utils';
+import {
+  useAccount,
+  useContract,
+  useContractRead,
+  useNetwork,
+  useSigner,
+} from 'wagmi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { timestampToDate } from '../utils';
 import { ethers } from 'ethers';
@@ -15,21 +21,23 @@ export default function Asked({ question }: { question: any }) {
   const [finalizationLoading, setFinalizationLoading] = useState(false);
   const { address } = useAccount();
   const { data: signer } = useSigner();
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
   const tokenContract = useContract({
-    address: addresses.goerli.token,
+    address: addresses[activeChain ? activeChain : 'aurora'].token,
     abi: Token.abi,
     signerOrProvider: signer,
   });
 
   const oracleContract = useContract({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
 
   const { data: balance, isLoading }: { data: any; isLoading: boolean } =
     useContractRead({
-      address: addresses.goerli.token,
+      address: addresses[activeChain ? activeChain : 'aurora'].token,
       abi: Token.abi,
       functionName: 'balanceOf',
       args: [address],
@@ -38,10 +46,10 @@ export default function Asked({ question }: { question: any }) {
     });
 
   const { data: isApproved } = useContractRead({
-    address: addresses.goerli.token,
+    address: addresses[activeChain ? activeChain : 'aurora'].token,
     abi: Token.abi,
     functionName: 'allowance',
-    args: [address, addresses.goerli.oo],
+    args: [address, addresses[activeChain ? activeChain : 'aurora'].oo],
     enabled: !!address,
     watch: true,
     select: (data: any) => ethers.utils.parseEther('10').lte(data),
@@ -90,7 +98,7 @@ export default function Asked({ question }: { question: any }) {
     setApprovalLoading(true);
     try {
       let approval = await tokenContract.approve(
-        addresses.goerli.oo,
+        addresses[activeChain ? activeChain : 'aurora'].oo,
         ethers.utils.parseEther('100')
       );
       await approval.wait();

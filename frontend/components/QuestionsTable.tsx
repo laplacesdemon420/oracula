@@ -18,8 +18,8 @@ import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { QuestionType } from '../types';
 import { mockQuestions } from '../data/questions';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import { addresses } from '../../contracts/addresses';
-import { useContractRead, useQuery } from 'wagmi';
+import { addresses } from '../utils';
+import { useContractRead, useNetwork, useQuery } from 'wagmi';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import { timestampToDate } from '../utils';
@@ -83,6 +83,8 @@ export function LightTable() {
   const [data, setData] = useState<QuestionType[]>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState('');
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   // get all questions here
   // const { data: questions } = useContractRead({
@@ -181,10 +183,12 @@ export default function Table() {
   const [data, setData] = useState<QuestionType[]>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState('');
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   // get all questions here
   const { data: questions } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {
@@ -206,7 +210,7 @@ export default function Table() {
   });
 
   const table = useReactTable({
-    data: data.length > 0 ? data : [],
+    data: data && data.length ? data : [],
     columns,
     state: {
       columnVisibility,

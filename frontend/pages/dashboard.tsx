@@ -2,12 +2,12 @@ import type { NextPage, InferGetStaticPropsType, GetStaticProps } from 'next';
 import styled from 'styled-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
-import { addresses } from '../../contracts/addresses';
+import { addresses } from '../utils';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
 import Table from '../components/QuestionsTable';
 import { timestampToDate } from '../utils';
-import { useAccount, useContract, useContractRead } from 'wagmi';
+import { useAccount, useContract, useContractRead, useNetwork } from 'wagmi';
 import { useEffect, useState } from 'react';
 
 type Stats = {
@@ -20,11 +20,15 @@ type Stats = {
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats>();
   const [activeBalance, setActiveBalance] = useState(0);
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
 
   const { address } = useAccount();
 
+  console.log('ac:', activeChain);
+
   const { data: balance } = useContractRead({
-    address: addresses.goerli.token,
+    address: addresses[activeChain ? activeChain : 'aurora'].token,
     abi: Token.abi,
     functionName: 'balanceOf',
     args: [address],
@@ -34,7 +38,7 @@ export default function Dashboard() {
 
   // get all questions
   const { data }: { data: Stats | any } = useContractRead({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {

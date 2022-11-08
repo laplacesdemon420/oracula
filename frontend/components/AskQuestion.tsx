@@ -1,11 +1,17 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
-import { useContract, useContractRead, useQuery, useSigner } from 'wagmi';
+import {
+  useContract,
+  useContractRead,
+  useNetwork,
+  useQuery,
+  useSigner,
+} from 'wagmi';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import { addresses } from '../../contracts/addresses';
+import { addresses } from '../utils';
 import { QuestionType } from '../types';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -14,8 +20,10 @@ export default function AskQuestion() {
   const [askQuestionLoading, setAskQuestionLoading] = useState(false);
   const [askedQuestion, setAskedQuestion] = useState('');
   const { data: signer } = useSigner();
+  const { chain } = useNetwork();
+  const activeChain = chain?.network;
   const optimisticOracle = useContract({
-    address: addresses.goerli.oo,
+    address: addresses[activeChain ? activeChain : 'aurora'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
