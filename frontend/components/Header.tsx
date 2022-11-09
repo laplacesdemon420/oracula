@@ -18,13 +18,10 @@ export default function Header() {
     <Container>
       <LogoContainer>
         <Link href="/">
-          <a>schelling</a>
+          <a>Oracula</a>
         </Link>
       </LogoContainer>
       <MenuContainer>
-        <Link href="/dashboard">
-          <Choice clicked={page === 'dashboard'}>DASHBOARD</Choice>
-        </Link>
         <Link href="/questions">
           <Choice clicked={page === 'questions'}>QUESTIONS</Choice>
         </Link>

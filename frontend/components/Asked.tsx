@@ -24,20 +24,20 @@ export default function Asked({ question }: { question: any }) {
   const { chain } = useNetwork();
   const activeChain = chain?.network;
   const tokenContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     signerOrProvider: signer,
   });
 
   const oracleContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
 
   const { data: balance, isLoading }: { data: any; isLoading: boolean } =
     useContractRead({
-      address: addresses[activeChain ? activeChain : 'aurora'].token,
+      address: addresses[activeChain ? activeChain : 'bittorrent'].token,
       abi: Token.abi,
       functionName: 'balanceOf',
       args: [address],
@@ -46,10 +46,10 @@ export default function Asked({ question }: { question: any }) {
     });
 
   const { data: isApproved } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     functionName: 'allowance',
-    args: [address, addresses[activeChain ? activeChain : 'aurora'].oo],
+    args: [address, addresses[activeChain ? activeChain : 'bittorrent'].oo],
     enabled: !!address,
     watch: true,
     select: (data: any) => ethers.utils.parseEther('10').lte(data),
@@ -98,7 +98,7 @@ export default function Asked({ question }: { question: any }) {
     setApprovalLoading(true);
     try {
       let approval = await tokenContract.approve(
-        addresses[activeChain ? activeChain : 'aurora'].oo,
+        addresses[activeChain ? activeChain : 'bittorrent'].oo,
         ethers.utils.parseEther('100')
       );
       await approval.wait();
@@ -118,14 +118,14 @@ export default function Asked({ question }: { question: any }) {
       <p className="headers">Resolution Source: {question?.resolutionSource}</p>
       <p className="headers">Propose answer:</p>
       <p>
-        To propose, <strong>you post a bond of 10 Opti</strong>. This is done to
-        incentivize good proposals. If your proposals gets disputed and
-        overturned in the vote, then you will lose the 10 Opti. If your proposal
-        goes through, you will get back your 10 Opti. Therefore, you need to
-        hold opti tokens to be able to vote.
+        To propose, <strong>you post a bond of 10 Oracula</strong>. This is done
+        to incentivize good proposals. If your proposals gets disputed and
+        overturned in the vote, then you will lose the 10 Oracula. If your
+        proposal goes through, you will get back your 10 Oracula. Therefore, you
+        need to hold oracula tokens to be able to vote.
       </p>
       <p>
-        <strong>Opti balance:</strong> <span>{!isLoading && balance}</span>
+        <strong>Oracula balance:</strong> <span>{!isLoading && balance}</span>
       </p>
       {isApproved === false && (
         <ApproveDiv>

@@ -11,24 +11,24 @@ const Home: NextPage = () => {
         <Top>
           <Left>
             <h1>
-              The oracle for everything. Secure your smart contracts on Aurora
+              The oracle for everything. Secure your smart contracts on BTTC
               today.
             </h1>
             <p className="description">
-              Opti is a optimistic oracle, designed to provide answers to any
+              Oracula is a optimistic oracle, designed to provide answers to any
               binary question with the help of game theory. Anyone that holds
-              OPTI can and is incentivized to report the answer to a question,
-              and in the case of disputes, there is a vote.
+              the Oracula token can and is incentivized to report the answer to
+              a question, and in the case of disputes, there is a vote.
             </p>
             <div className="buttons">
-              <Link href="/dashboard">
+              <Link href="/questions">
                 <PrimaryButton>
-                  <a>Dashboard</a>
+                  <a>Questions</a>
                 </PrimaryButton>
               </Link>
-              <Link href="/questions">
+              <Link href="/faucet">
                 <SecondaryButton>
-                  <a>Questions</a>
+                  <a>Faucet</a>
                 </SecondaryButton>
               </Link>
             </div>
@@ -41,43 +41,6 @@ const Home: NextPage = () => {
       <Middle>
         <AskQuestion></AskQuestion>
       </Middle>
-      <Bottom>
-        <div className="header">
-          <p>Introducing the Optimistic Oracle</p>
-        </div>
-        <div className="largebox">
-          <div className="box">
-            <p className="header">Pull-based Oracle</p>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo
-              culpa quasi quas. Beatae, porro ad praesentium aliquam molestias
-              aliquid non eligendi temporibus tempora eveniet? Sint nobis
-              explicabo placeat ex molestias!
-            </p>
-          </div>
-          <div className="box">
-            <p className="header">How does it work?</p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-              quos cum nulla, aliquam, suscipit eaque placeat iure quas,
-              doloremque sunt amet et blanditiis ducimus enim quae? Tempore,
-              recusandae et? Illo?
-            </p>
-          </div>
-          <div className="box">
-            <p className="header">Participant in Near Hackathon</p>
-            <p>
-              Opti is currently participating in the Near Metabuild III
-              Hackathon. A link to our devpost submission can be found at{' '}
-              <a href="https://devpost.com" target="_blank" rel="noreferrer">
-                devpost.com
-              </a>
-              . There you can find a video that explains the project more
-              in-depth.
-            </p>
-          </div>
-        </div>
-      </Bottom>
     </Container>
   );
 };
@@ -87,7 +50,7 @@ const Container = styled.div`
 `;
 
 const TopContainer = styled.div`
-  padding: 3rem 4rem;
+  padding: 5rem 4rem;
   border-bottom: 2px solid ${({ theme }) => theme.background.tertiary};
 `;
 
@@ -161,49 +124,6 @@ const SecondaryButton = styled.button`
     background-color: ${({ theme }) => theme.colors.secondary};
     border: 2px solid ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.background.primary};
-  }
-`;
-
-const Bottom = styled.div`
-  padding: 0 2rem;
-  background-color: ${({ theme }) => theme.background.secondary};
-  height: 300px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  .header {
-    width: 100%;
-    max-width: 1200px;
-    p {
-      color: ${({ theme }) => theme.colors.primary};
-      padding-top: 2rem;
-      font-size: ${({ theme }) => theme.typeScale.header1};
-      font-weight: 500;
-    }
-  }
-  .largebox {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
-    width: 100%;
-    max-width: 1200px;
-    overflow-y: scroll;
-    .box {
-      overflow-y: scroll;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      line-height: 1.5rem;
-      .header {
-        font-size: ${({ theme }) => theme.typeScale.header4};
-        font-weight: 500;
-      }
-      a {
-        color: ${({ theme }) => theme.colors.primary};
-      }
-    }
   }
 `;
 

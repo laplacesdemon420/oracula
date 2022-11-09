@@ -58,7 +58,7 @@ export default function DisputesTable() {
   const activeChain = chain?.network;
 
   const { data: questions } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {

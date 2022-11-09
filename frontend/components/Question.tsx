@@ -14,7 +14,7 @@ export default function Question() {
 
   // get actual question here
   const { data: question }: { data: any; refetch: any } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getQuestionById',
     args: ['0x' + query.id],
@@ -23,7 +23,7 @@ export default function Question() {
   });
 
   const { data: proposal } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getProposalByQuestionId',
     args: ['0x' + query.id],
@@ -32,7 +32,7 @@ export default function Question() {
   });
 
   const { data: vote } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'voteByQuestionId',
     args: ['0x' + query.id],

@@ -28,7 +28,7 @@ export default function Dashboard() {
   console.log('ac:', activeChain);
 
   const { data: balance } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     functionName: 'balanceOf',
     args: [address],
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   // get all questions
   const { data }: { data: Stats | any } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {

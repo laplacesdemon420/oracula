@@ -20,56 +20,54 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient();
 
-const aurora: Chain = {
-  id: 1313161554,
-  name: 'Aurora',
-  network: 'aurora',
-  iconUrl:
-    'https://raw.githubusercontent.com/aurora-is-near/bridge-assets/master/tokens/aurora.svg',
+const bittorrent: Chain = {
+  id: 199,
+  name: 'BitTorrent',
+  network: 'bittorrent',
+  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/16086.png',
   nativeCurrency: {
     decimals: 18,
-    name: 'ETHER',
-    symbol: 'ETH',
+    name: 'BTT',
+    symbol: 'BTT',
   },
   rpcUrls: {
-    default: 'https://mainnet.aurora.dev',
+    default: 'https://rpc.bittorrentchain.io',
   },
   blockExplorers: {
-    default: { name: 'AuroraScan', url: 'https://aurorascan.dev/' },
+    default: { name: 'BttcScan', url: 'https://bttcscan.com/' },
   },
   testnet: false,
 };
 
-const auroraTestnet: Chain = {
-  id: 1313161555,
-  name: 'Aurora Testnet',
-  network: 'auroraTestnet',
-  iconUrl:
-    'https://raw.githubusercontent.com/aurora-is-near/bridge-assets/master/tokens/aurora.svg',
+const bittorrentTestnet: Chain = {
+  id: 1029,
+  name: 'BitTorrent Testnet',
+  network: 'bittorrentTestnet',
+  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/16086.png',
   nativeCurrency: {
     decimals: 18,
-    name: 'ETHER',
-    symbol: 'ETH',
+    name: 'BTT',
+    symbol: 'BTT',
   },
   rpcUrls: {
-    default: 'https://testnet.aurora.dev',
+    default: 'https://pre-rpc.bt.io/',
   },
   blockExplorers: {
     default: {
-      name: 'AuroraScan Testnet',
-      url: 'https://testnet.aurorascan.dev/',
+      name: 'BttcScan Testnet',
+      url: 'https://testscan.bt.io',
     },
   },
   testnet: true,
 };
 
 const { chains, provider } = configureChains(
-  [chain.goerli, aurora, auroraTestnet],
+  [bittorrent, bittorrentTestnet],
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'optimo',
+  appName: 'oracula',
   chains,
 });
 
@@ -81,10 +79,10 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <Head>
-        <title>opti.xyz</title>
-        <meta name="optimistic oracle" content="a fun thing" />
+        <title>Oracula</title>
+        <meta name="Oracula" content="The Everything Oracle" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalStyle />
@@ -102,7 +100,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Layout>
               <Component {...pageProps} />
             </Layout>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>

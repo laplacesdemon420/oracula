@@ -17,4 +17,5 @@ export default function Layout({ children }: Props) {
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.background.primary};
+  color: ${({ theme }) => theme.text.primary};
 `;

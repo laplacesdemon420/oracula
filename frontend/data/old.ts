@@ -1,71 +1,75 @@
 import { QuestionType } from '../types';
 
-export const questions: QuestionType[] = [
+export const mockQuestions: QuestionType[] = [
   {
-    questionString: 'was the price of $btc over 15000 on 2023-01-01?',
+    questionString:
+      'will the market cap of ETH be higher than BTC on 2023-01-01?',
     stage: 'ASKED',
     resolutionSource: 'https://coingecko.com',
     resolutionDate: '2023-01-01',
     questionId: '31231242134',
   },
   {
-    questionString: 'did spain win the 2022 fifa world cup?',
+    questionString:
+      'will the market cap of SOL be higher than ADA on 2023-01-01?',
     stage: 'ASKED',
-    resolutionSource: 'https://fifa.com',
+    resolutionSource: 'https://coingecko.com',
     resolutionDate: '2023-01-01',
     questionId: '31231242134',
   },
   {
     questionString:
-      'did lionel messi score the most goals in the 2022 fifa world cup?',
+      'will the market cap of SOL be higher than ADA on 2023-01-01?',
     stage: 'ASKED',
-    resolutionSource: 'https://fifa.com',
+    resolutionSource: 'https://coingecko.com',
     resolutionDate: '2023-01-01',
     questionId: '31231242134',
   },
   {
-    questionString: 'was joe biden the president of the USA on 2023-01-01',
+    questionString:
+      'will the market cap of SOL be higher than ADA on 2023-01-01?',
+    stage: 'ASKED',
+    resolutionSource: 'https://coingecko.com',
+    resolutionDate: '2023-01-01',
+    questionId: '31231242134',
+  },
+  {
+    questionString:
+      'will the market cap of SOL be higher than ADA on 2023-01-01?',
+    stage: 'ASKED',
+    resolutionSource: 'https://coingecko.com',
+    resolutionDate: '2023-01-01',
+    questionId: '31231242134',
+  },
+  {
+    questionString:
+      'will there be more than 10000 listed coins on coingecko by 2023-01-30?',
+    stage: 'ASKED',
+    resolutionSource: 'https://coingecko.com',
+    resolutionDate: '2023-01-01',
+    questionId: '31231242134',
+  },
+  {
+    questionString:
+      'will there be more than 10000 listed coins on coingecko by 2023-01-30?',
+    stage: 'ASKED',
+    resolutionSource: 'https://coingecko.com',
+    resolutionDate: '2023-01-01',
+    questionId: '31231242134',
+  },
+  {
+    questionString:
+      'will there be more than 10000 listed coins on coingecko by 2023-01-30?',
+    stage: 'ASKED',
+    resolutionSource: 'https://coingecko.com',
+    resolutionDate: '2023-01-01',
+    questionId: '31231242134',
+  },
+  {
+    questionString: 'will Donald Trump be president of the USA on 2025-06-01?',
     stage: 'ASKED',
     resolutionSource: 'https://usa.gov',
-    resolutionDate: '2023-01-01',
-    questionId: '31231242134',
-  },
-  {
-    questionString: 'has iphone 17 been released yet on 2024-06-01?',
-    stage: 'ASKED',
-    resolutionSource: 'https://apple.com',
-    resolutionDate: '2024-06-01',
-    questionId: '31231242134',
-  },
-  {
-    questionString: 'was binance the exchange with most volume on 2024-01-01?',
-    stage: 'ASKED',
-    resolutionSource: 'https://coingecko.com',
-    resolutionDate: '2024-01-01',
-    questionId: '31231242134',
-  },
-  {
-    questionString:
-      'was the ethereum market cap higher than bitcoins on 2024-01-01?',
-    stage: 'ASKED',
-    resolutionSource: 'https://coingecko.com',
-    resolutionDate: '2023-01-01',
-    questionId: '31231242134',
-  },
-  {
-    questionString:
-      'did manchester city win the uefa champions league in 2023?',
-    stage: 'ASKED',
-    resolutionSource: 'https://uefa.com',
-    resolutionDate: '2023-01-01',
-    questionId: '31231242134',
-  },
-  {
-    questionString:
-      'did paris saint germain win the uefa champions league in 2023?',
-    stage: 'ASKED',
-    resolutionSource: 'https://uefa.com',
-    resolutionDate: '2023-01-01',
+    resolutionDate: '2025-06-01',
     questionId: '31231242134',
   },
   {

@@ -19,7 +19,7 @@ const Faucet: NextPage = () => {
   const { chain } = useNetwork();
   const activeChain = chain?.network;
   const tokenContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     signerOrProvider: signer,
   });
@@ -44,6 +44,10 @@ const Faucet: NextPage = () => {
   return (
     <Container>
       <h2>Token Faucet</h2>
+      <p>
+        Token Address:{' '}
+        {addresses[activeChain ? activeChain : 'bittorrent'].token}
+      </p>
       <p>Get some test tokens that you can use for proposing and disputing!</p>
       <Choices>
         <Choice isActive={choice === 5} onClick={() => setChoice(5)}>
@@ -83,6 +87,8 @@ const Choices = styled.div`
 `;
 
 const Container = styled.div`
+  color: ${({ theme }) => theme.text.primary};
+
   min-height: calc(100vh - 62px);
   display: flex;
   flex-direction: column;

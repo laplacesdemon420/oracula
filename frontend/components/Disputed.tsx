@@ -37,7 +37,7 @@ export default function Disputed({
   const activeChain = chain?.network;
 
   const oracleContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
@@ -118,7 +118,7 @@ export default function Disputed({
   };
 
   const { data: commitHash } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'commit',
     args: [question.questionId, address],

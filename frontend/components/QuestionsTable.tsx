@@ -16,7 +16,7 @@ import {
 } from '@tanstack/match-sorter-utils';
 import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
 import { QuestionType } from '../types';
-import { mockQuestions } from '../data/questions';
+import { questions } from '../data/questions';
 import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import { addresses } from '../utils';
 import { useContractRead, useNetwork, useQuery } from 'wagmi';
@@ -123,7 +123,7 @@ export function LightTable() {
   });
 
   useEffect(() => {
-    setData(mockQuestions.slice(0, 9) as QuestionType[]);
+    setData(questions.slice(0, 9) as QuestionType[]);
   }, []);
 
   return (
@@ -188,7 +188,7 @@ export default function Table() {
 
   // get all questions here
   const { data: questions } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     functionName: 'getAllQuestions',
     select: (data: any) => {

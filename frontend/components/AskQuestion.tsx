@@ -22,8 +22,10 @@ export default function AskQuestion() {
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const activeChain = chain?.network;
+  console.log(activeChain);
+
   const optimisticOracle = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });

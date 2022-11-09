@@ -27,19 +27,19 @@ export default function Proposed({
   const activeChain = chain?.network;
   const { data: signer } = useSigner();
   const tokenContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     signerOrProvider: signer,
   });
 
   const oracleContract = useContract({
-    address: addresses[activeChain ? activeChain : 'aurora'].oo,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
     signerOrProvider: signer,
   });
 
   const { data: balance } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     functionName: 'balanceOf',
     args: [address],
@@ -48,10 +48,10 @@ export default function Proposed({
   });
 
   const { data: isApproved } = useContractRead({
-    address: addresses[activeChain ? activeChain : 'aurora'].token,
+    address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
     functionName: 'allowance',
-    args: [address, addresses[activeChain ? activeChain : 'aurora'].oo],
+    args: [address, addresses[activeChain ? activeChain : 'bittorrent'].oo],
     enabled: !!address,
     watch: true,
     select: (data: any) => ethers.utils.parseEther('10').lte(data),
@@ -63,7 +63,7 @@ export default function Proposed({
     setApprovalLoading(true);
     try {
       let approval = await tokenContract.approve(
-        addresses[activeChain ? activeChain : 'aurora'].oo,
+        addresses[activeChain ? activeChain : 'bittorrent'].oo,
         ethers.utils.parseEther('100')
       );
       await approval.wait();
@@ -125,14 +125,14 @@ export default function Proposed({
       <p className="headers">Time to Finality: {ttf}s</p>
       <p className="headers">Dispute proposal:</p>
       <p>
-        To dispute, <strong>you post a bond of 10 Opti</strong>. This is done to
-        incentivize good disputes. If your dispute is proven to be correct in
-        the vote, you&apos;ll get the 10 Opti back. If your dispute is proven to
-        be wrong, you&apos;ll lose it. Therefore, you need to hold opti tokens
-        to be able to vote.
+        To dispute, <strong>you post a bond of 10 Oracula</strong>. This is done
+        to incentivize good disputes. If your dispute is proven to be correct in
+        the vote, you&apos;ll get the 10 Oracula back. If your dispute is proven
+        to be wrong, you&apos;ll lose it. Therefore, you need to hold oracula
+        tokens to be able to vote.
       </p>
       <p>
-        <strong>Opti balance:</strong> <span>{balance as string}</span>
+        <strong>Oracula balance:</strong> <span>{balance as string}</span>
       </p>
       {isApproved === false && (
         <ApproveDiv>
