@@ -3,8 +3,10 @@ import 'dotenv/config';
 import OptimisticOracle from '../out/OptimisticOracle.sol/OptimisticOracle.json';
 import { addresses } from '../addresses';
 
+const chain = 'bittorrentTestnet';
+
 const main = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
+  const provider = new ethers.providers.JsonRpcProvider(process.env[chain]);
   const wallet = new ethers.Wallet(process.env.pk as string, provider);
 
   const ooFactory = new ethers.ContractFactory(
@@ -13,10 +15,10 @@ const main = async () => {
     wallet
   );
 
-  const oo = ooFactory.attach(addresses.goerli.oo);
+  const oo = ooFactory.attach(addresses[chain].oo);
 
   let tx = await oo.askQuestion(
-    'was $eth over 2000 on 2022-01-01?',
+    'was $eth over 1000 on 2023-01-01?',
     'https://coingecko.com',
     1667638013 + 60
   );

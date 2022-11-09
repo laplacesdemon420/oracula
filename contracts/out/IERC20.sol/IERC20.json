@@ -195,7 +195,7 @@
     "linkReferences": {}
   },
   "ast": {
-    "absolutePath": "/Users/alexander/dev/opti/contracts/lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
+    "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol",
     "exportedSymbols": {
       "IERC20": [
         23991

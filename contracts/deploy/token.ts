@@ -2,10 +2,12 @@ import { ethers } from 'ethers';
 import OPTI from '../out/Token.sol/OPTI.json';
 import 'dotenv/config';
 
-const address = '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6';
+const address = '0xB340EAdC6baA1fb1dD84FA7BaC924Fc2F843058b';
 
 const main = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.bittorrentTestnet
+  );
   const wallet = new ethers.Wallet(process.env.pk as string, provider);
 
   const tokenFactory = new ethers.ContractFactory(

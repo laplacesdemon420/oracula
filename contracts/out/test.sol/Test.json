@@ -428,7 +428,7 @@
     "linkReferences": {}
   },
   "ast": {
-    "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/Test.sol",
+    "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/Test.sol",
     "exportedSymbols": {
       "DSTest": [
         1786
@@ -492,7 +492,7 @@
         "src": "64:33:3"
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/Script.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/Script.sol",
         "file": "./Script.sol",
         "id": 2413,
         "nameLocation": "-1:-1:-1",
@@ -504,7 +504,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/ds-test/src/test.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/ds-test/src/test.sol",
         "file": "ds-test/test.sol",
         "id": 2414,
         "nameLocation": "-1:-1:-1",

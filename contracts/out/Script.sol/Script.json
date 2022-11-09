@@ -38,7 +38,7 @@
     "linkReferences": {}
   },
   "ast": {
-    "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/Script.sol",
+    "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/Script.sol",
     "exportedSymbols": {
       "Script": [
         2049
@@ -75,7 +75,7 @@
         "src": "32:31:1"
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/console.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/console.sol",
         "file": "./console.sol",
         "id": 1789,
         "nameLocation": "-1:-1:-1",
@@ -87,7 +87,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/console2.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/console2.sol",
         "file": "./console2.sol",
         "id": 1790,
         "nameLocation": "-1:-1:-1",
@@ -99,7 +99,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/forge-std/src/StdJson.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/forge-std/src/StdJson.sol",
         "file": "./StdJson.sol",
         "id": 1791,
         "nameLocation": "-1:-1:-1",

@@ -109,7 +109,7 @@
     "linkReferences": {}
   },
   "ast": {
-    "absolutePath": "/Users/alexander/dev/opti/contracts/lib/openzeppelin-contracts/contracts/token/ERC1155/utils/ERC1155Receiver.sol",
+    "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/openzeppelin-contracts/contracts/token/ERC1155/utils/ERC1155Receiver.sol",
     "exportedSymbols": {
       "ERC1155Receiver": [
         23326
@@ -140,7 +140,7 @@
         "src": "108:23:9"
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol",
         "file": "../IERC1155Receiver.sol",
         "id": 23295,
         "nameLocation": "-1:-1:-1",
@@ -152,7 +152,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/alexander/dev/opti/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
+        "absolutePath": "/Users/alexander/dev/oracula/contracts/lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol",
         "file": "../../../utils/introspection/ERC165.sol",
         "id": 23296,
         "nameLocation": "-1:-1:-1",

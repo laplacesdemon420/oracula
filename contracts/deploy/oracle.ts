@@ -4,7 +4,9 @@ import OptimisticOracle from '../out/OptimisticOracle.sol/OptimisticOracle.json'
 import { addresses } from '../addresses';
 
 const main = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(process.env.goerli);
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.bittorrentTestnet
+  );
   const wallet = new ethers.Wallet(process.env.pk as string, provider);
 
   const ooFactory = new ethers.ContractFactory(
@@ -13,7 +15,7 @@ const main = async () => {
     wallet
   );
 
-  let oo = await ooFactory.deploy(addresses.goerli.token);
+  let oo = await ooFactory.deploy(addresses.bittorrentTestnet.token);
   await oo.deployed();
   console.log('Optimistic Oracle deployed at:', oo.address);
 };
