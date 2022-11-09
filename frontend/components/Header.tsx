@@ -10,8 +10,8 @@ export default function Header() {
       ? 'dashboard'
       : router.asPath === '/questions'
       ? 'questions'
-      : router.asPath === '/disputes'
-      ? 'disputes'
+      : router.asPath === '/faucet'
+      ? 'faucet'
       : '';
 
   return (
@@ -28,8 +28,8 @@ export default function Header() {
         <Link href="/questions">
           <Choice clicked={page === 'questions'}>QUESTIONS</Choice>
         </Link>
-        <Link href="/disputes">
-          <Choice clicked={page === 'disputes'}>DISPUTES</Choice>
+        <Link href="/faucet">
+          <Choice clicked={page === 'faucet'}>FAUCET</Choice>
         </Link>
       </MenuContainer>
       <ButtonContainer>
