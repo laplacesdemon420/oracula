@@ -9,12 +9,12 @@ import {
   darkTheme as darkThemeRainbowKit,
   Chain,
 } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { ThemeProvider } from 'styled-components';
 import Layout from '../components/Layout';
-import { lightTheme, darkTheme, GlobalStyle } from '../design/themes';
+import { darkTheme, GlobalStyle } from '../design/themes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
@@ -83,14 +83,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Oracula</title>
         <meta name="Oracula" content="The Everything Oracle" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/react.webp" />
       </Head>
       <GlobalStyle />
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
           theme={darkThemeRainbowKit({
-            accentColor: lightTheme.colors.primary,
+            accentColor: darkTheme.colors.secondary,
             accentColorForeground: 'white',
             borderRadius: 'small',
             fontStack: 'system',
@@ -100,7 +100,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Layout>
               <Component {...pageProps} />
             </Layout>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>

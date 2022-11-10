@@ -2,13 +2,8 @@ import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { ethers } from 'ethers';
 import { useAccount, useContract, useNetwork, useSigner } from 'wagmi';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
 import Token from '../../contracts/out/Token.sol/OPTI.json';
 import { addresses } from '../utils';
-import DisputesTable from '../components/DisputesTable';
-import { DisputeType } from '../types';
 import { useState } from 'react';
 
 const Faucet: NextPage = () => {
@@ -34,7 +29,6 @@ const Faucet: NextPage = () => {
         ethers.utils.parseEther(choice.toString())
       );
       await tx.wait();
-      console.log(tx.hash);
     } catch (e) {
       console.log(e);
     }

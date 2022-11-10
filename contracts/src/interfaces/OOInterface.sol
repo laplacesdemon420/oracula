@@ -26,10 +26,3 @@ interface OOInterface {
 
     function finalizeVote(bytes32 questionId) external;
 }
-
-interface DVMInterface {
-    // initialize vote
-    // commit vote
-    // reveal vote
-    // aggregate votes
-}

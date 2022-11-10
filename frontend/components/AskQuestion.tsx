@@ -22,7 +22,6 @@ export default function AskQuestion() {
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
   const activeChain = chain?.network;
-  console.log(activeChain);
 
   const optimisticOracle = useContract({
     address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
@@ -32,8 +31,6 @@ export default function AskQuestion() {
 
   const { register, handleSubmit, watch, formState } = useForm<QuestionType>();
   const onSubmit: SubmitHandler<QuestionType> = async (data) => {
-    console.log(data);
-
     if (!optimisticOracle) return;
 
     const question = [
@@ -41,12 +38,6 @@ export default function AskQuestion() {
       data.resolutionSource.toLowerCase(),
       ethers.BigNumber.from(new Date(data.resolutionDate).getTime() / 1000),
     ];
-
-    console.log(
-      ethers.BigNumber.from(
-        new Date(data.resolutionDate).getTime() / 1000
-      ).toString()
-    );
 
     const questionId = ethers.utils.keccak256(
       ethers.utils.defaultAbiCoder.encode(
@@ -61,13 +52,10 @@ export default function AskQuestion() {
       )
     );
 
-    console.log('questionId:', questionId);
-
     setAskQuestionLoading(true);
     try {
       let tx = await optimisticOracle.askQuestion(...question);
       await tx.wait();
-      console.log(tx.hash);
     } catch (e) {
       console.log(e);
     }

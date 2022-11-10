@@ -67,7 +67,6 @@ export default function Proposed({
         ethers.utils.parseEther('100')
       );
       await approval.wait();
-      console.log(approval.hash);
     } catch (e) {
       console.log(e);
     }
@@ -83,7 +82,6 @@ export default function Proposed({
         question.questionId
       );
       await finalization.wait();
-      console.log(finalization.hash);
     } catch (e) {
       console.log(e);
     }
@@ -97,7 +95,6 @@ export default function Proposed({
     try {
       let dispute = await oracleContract.disputeProposal(question.questionId);
       await dispute.wait();
-      console.log(dispute.hash);
     } catch (e) {
       console.log(e);
     }

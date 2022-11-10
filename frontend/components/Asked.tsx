@@ -18,7 +18,6 @@ import { useState } from 'react';
 export default function Asked({ question }: { question: any }) {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [proposalLoading, setProposalLoading] = useState(false);
-  const [finalizationLoading, setFinalizationLoading] = useState(false);
   const { address } = useAccount();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
@@ -78,11 +77,10 @@ export default function Asked({ question }: { question: any }) {
         result
       );
       await proposal.wait();
-      console.log(proposal.hash);
     } catch (e) {
       console.log(e);
     }
-    // await refetchQuestion();
+
     setProposalLoading(false);
   };
 
@@ -102,7 +100,6 @@ export default function Asked({ question }: { question: any }) {
         ethers.utils.parseEther('100')
       );
       await approval.wait();
-      console.log(approval.hash);
     } catch (e) {
       console.log(e);
     }

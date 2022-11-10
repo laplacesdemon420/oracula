@@ -1,5 +1,0 @@
-case studies:
-  - uma
-  - kleros
-  - aragon court
-  - augur

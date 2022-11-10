@@ -4,7 +4,7 @@ import OptimisticOracle from '../out/OptimisticOracle.sol/OptimisticOracle.json'
 import { addresses } from '../addresses';
 import { questions } from '../questions';
 
-const chain = 'bittorrentTestnet';
+const chain = 'bittorrent';
 
 const main = async () => {
   const provider = new ethers.providers.JsonRpcProvider(process.env[chain]);

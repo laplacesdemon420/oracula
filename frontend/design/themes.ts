@@ -1,4 +1,4 @@
-import { createGlobalStyle, withTheme } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { Theme } from '../types';
 
 const primaryFont = `-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -63,33 +63,6 @@ export const darkTheme: Theme = {
     senary: grey[500],
     input: grey[900],
     border: grey[900],
-  },
-  font: {
-    primary: primaryFont,
-  },
-  typeScale: typeScale,
-};
-export const lightTheme: Theme = {
-  colors: {
-    primary: blue[500],
-    secondary: blue[100],
-    tertiary: blue[400],
-    green: '#60D394',
-    red: '#FF6978',
-    primaryHover: blue[200],
-  },
-  text: {
-    primary: blue[500],
-    secondary: grey[900],
-  },
-  background: {
-    primary: grey[100],
-    secondary: grey[200],
-    tertiary: grey[300],
-    quaternary: grey[400],
-    senary: grey[500],
-    input: 'white',
-    border: blue[500],
   },
   font: {
     primary: primaryFont,

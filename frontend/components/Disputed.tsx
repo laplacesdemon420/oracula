@@ -58,8 +58,6 @@ export default function Disputed({
       return;
     }
 
-    console.log(data);
-
     const result = data.answer === 'yes' ? 1 : 2;
     const hash = ethers.utils.keccak256(
       ethers.utils.defaultAbiCoder.encode(
@@ -67,13 +65,11 @@ export default function Disputed({
         [result, data.password]
       )
     );
-    console.log(hash);
 
     setCommitLoading(true);
     try {
       let commit = await oracleContract.commitVote(question.questionId, hash);
       await commit.wait();
-      console.log(commit.hash);
     } catch (e) {
       console.log(e);
     }
@@ -97,8 +93,6 @@ export default function Disputed({
       return;
     }
 
-    console.log(data);
-
     const result = data.answer === 'yes' ? 1 : 2;
 
     setRevealLoading(true);
@@ -109,7 +103,6 @@ export default function Disputed({
         data.password
       );
       await reveal.wait();
-      console.log(reveal.hash);
     } catch (e) {
       console.log(e);
     }
@@ -133,7 +126,6 @@ export default function Disputed({
     try {
       let finalization = await oracleContract.finalizeVote(question.questionId);
       await finalization.wait();
-      console.log(finalization.hash);
     } catch (e) {
       console.log(e);
     }
@@ -155,8 +147,6 @@ export default function Disputed({
   const now = ethers.BigNumber.from(Math.floor(new Date().getTime() / 1000));
   const commitEnd = vote?.commitEndTimestamp;
   const revealEnd = vote?.revealEndTimestamp;
-
-  console.log();
 
   const phase = now.lt(commitEnd)
     ? 'commit'

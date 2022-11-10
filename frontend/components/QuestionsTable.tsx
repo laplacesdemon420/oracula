@@ -147,8 +147,7 @@ export function LightTable() {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => {
-            const questionId = row.original.questionId.slice(2);
-            // console.log('questionId:', questionId);
+            const questionId = row.original.questionId;
             return (
               <tr className={row.id} key={row.id}>
                 {row.getVisibleCells().map((cell) => {
@@ -186,7 +185,6 @@ export default function Table() {
   const { chain } = useNetwork();
   const activeChain = chain?.network;
 
-  // get all questions here
   const { data: questions } = useContractRead({
     address: addresses[activeChain ? activeChain : 'bittorrent'].oo,
     abi: OptimisticOracle.abi,
@@ -223,8 +221,6 @@ export default function Table() {
   });
 
   const handleResize = () => {
-    console.log(window.innerWidth);
-
     if (window.innerWidth < 850) {
       setColumnVisibility({
         questionString: true,

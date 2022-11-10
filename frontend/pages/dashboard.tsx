@@ -25,8 +25,6 @@ export default function Dashboard() {
 
   const { address } = useAccount();
 
-  console.log('ac:', activeChain);
-
   const { data: balance } = useContractRead({
     address: addresses[activeChain ? activeChain : 'bittorrent'].token,
     abi: Token.abi,
@@ -69,8 +67,6 @@ export default function Dashboard() {
   useEffect(() => {
     setActiveBalance(balance as number);
   }, [balance]);
-
-  console.log(balance);
 
   return (
     <Container>

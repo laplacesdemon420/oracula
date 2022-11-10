@@ -718,8 +718,8 @@
       }
     },
     "/Users/alexander/dev/oracula/contracts/src/Token.sol": {
-      "lastModificationDate": 1667998792605,
-      "contentHash": "9f2dc995bd0dd11a6aa91d2870c0e77c",
+      "lastModificationDate": 1668000819443,
+      "contentHash": "0fac6cd242f4c3bcb13f109f341b145e",
       "sourceName": "src/Token.sol",
       "solcConfig": {
         "settings": {
@@ -793,8 +793,8 @@
       "artifacts": {}
     },
     "/Users/alexander/dev/oracula/contracts/src/interfaces/OOInterface.sol": {
-      "lastModificationDate": 1667998792607,
-      "contentHash": "5813aa2cdcc9a1b7e380d0fdce4b9304",
+      "lastModificationDate": 1668061538620,
+      "contentHash": "1d5c2b809db4355b4107af6de1e3a06d",
       "sourceName": "src/interfaces/OOInterface.sol",
       "solcConfig": {
         "settings": {
@@ -826,9 +826,6 @@
       ],
       "versionRequirement": "=0.8.13",
       "artifacts": {
-        "DVMInterface": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "OOInterface.sol/DVMInterface.json"
-        },
         "OOInterface": {
           "0.8.13+commit.abaa5c0e.Darwin.appleclang": "OOInterface.sol/OOInterface.json"
         }

@@ -135,9 +135,6 @@
   "ast": {
     "absolutePath": "/Users/alexander/dev/oracula/contracts/src/interfaces/OOInterface.sol",
     "exportedSymbols": {
-      "DVMInterface": [
-        24998
-      ],
       "OOInterface": [
         24997
       ],
@@ -145,7 +142,7 @@
         24902
       ]
     },
-    "id": 24999,
+    "id": 24998,
     "license": "UNLICENSED",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -165,7 +162,7 @@
         "id": 24947,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 24999,
+        "scope": 24998,
         "sourceUnit": 24944,
         "src": "64:56:19",
         "symbolAliases": [
@@ -761,30 +758,11 @@
             "visibility": "external"
           }
         ],
-        "scope": 24999,
+        "scope": 24998,
         "src": "122:617:19",
-        "usedErrors": []
-      },
-      {
-        "abstract": false,
-        "baseContracts": [],
-        "canonicalName": "DVMInterface",
-        "contractDependencies": [],
-        "contractKind": "interface",
-        "fullyImplemented": true,
-        "id": 24998,
-        "linearizedBaseContracts": [
-          24998
-        ],
-        "name": "DVMInterface",
-        "nameLocation": "751:12:19",
-        "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 24999,
-        "src": "741:110:19",
         "usedErrors": []
       }
     ],
-    "src": "39:813:19"
+    "src": "39:701:19"
   }
 }

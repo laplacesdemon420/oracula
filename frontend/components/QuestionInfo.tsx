@@ -1,18 +1,7 @@
 import styled from 'styled-components';
-import { BsCheckCircleFill } from 'react-icons/bs';
-import OptimisticOracle from '../../contracts/out/OptimisticOracle.sol/OptimisticOracle.json';
-import Token from '../../contracts/out/Token.sol/OPTI.json';
-import { addresses } from '../../contracts/addresses';
-import { useAccount, useContract, useContractRead, useSigner } from 'wagmi';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { timestampToDate } from '../utils';
-import { ethers } from 'ethers';
-import { useState } from 'react';
 import Asked from './Asked';
 import Proposed from './Proposed';
 import Disputed from './Disputed';
-
-// gets the actual question
 
 export default function QuestionInfo({
   question,
